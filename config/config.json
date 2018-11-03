@@ -1,0 +1,17 @@
+{
+    "nfl_api": {
+        "base_url": "https://api.fantasy.nfl.com/v1",
+        "auth_headers": {
+            "origin": "http://www.nfl.com",
+            "content_type": "application/json"
+        },
+        "auth_data": {
+            "grant_type": "client_credentials",
+            "client_id": "",
+            "client_type": "mobile"
+        },
+        "headers": {
+            "Authorization": ""
+        }
+    }
+}
