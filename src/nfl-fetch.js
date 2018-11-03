@@ -36,6 +36,7 @@ async function get(endpoint) {
         ]
     }
 */
+
 function getCurrentWeek() {
     const result = get('/players/stats');
     return result;
