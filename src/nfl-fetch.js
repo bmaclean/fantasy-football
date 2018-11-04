@@ -1,3 +1,9 @@
+
+/*
+    nfl-fetch interacts directly with the NFL API to retrieve any data
+    necessary for populating and updating the database. 
+*/
+
 const fetch = require('node-fetch');
 const config = require('../config/config.json');
 
