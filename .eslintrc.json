@@ -1,0 +1,11 @@
+{
+    "parserOptions": {
+        "ecmaVersion": 2017
+    },
+    "rules": {
+        "indent": ["error", 4]
+    }, 
+    "env": {
+        "es6": true
+    }
+}
