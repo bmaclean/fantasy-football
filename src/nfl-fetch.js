@@ -1,8 +1,14 @@
+
+/*
+    nfl-fetch interacts directly with the NFL API to retrieve any data
+    necessary for populating and updating the database. 
+*/
+
 const fetch = require('node-fetch');
 const config = require('../config/config.json');
 
 module.exports= {
-    getCurrentWeek
+    getPlayerStats,
 }
 
 /*
@@ -37,7 +43,7 @@ async function get(endpoint) {
     }
 */
 
-function getCurrentWeek() {
-    const result = get('/players/stats');
+async function getPlayerStats() {
+    const result = await get('/players/stats');
     return result;
 }
