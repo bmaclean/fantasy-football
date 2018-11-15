@@ -1,25 +1,29 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import {AppHeader} from './components';
+import {theme} from './ui';
+import {MuiThemeProvider} from '@material-ui/core';
 import './App.css';
 
 class App extends Component {
+  state = {
+    user: null,
+  };
+
+  submitLogin = (name) => {
+    // TODO: attempt login by API call
+    this.setState({
+      user: {name}
+    })
+  }
+
   render() {
+    const {user} = this.state;
+
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <MuiThemeProvider theme={theme}>
+          <AppHeader login={this.submitLogin} username={user && user.name} loggedIn={!!user}/>
+        </MuiThemeProvider>
       </div>
     );
   }
