@@ -9,18 +9,23 @@ class App extends Component {
     user: null
   };
 
-  componentDidMount() {
-    // TODO: remove this - proof of concept only
-    fetch('/users')
-      .then(res => res.json())
-      .then(res => console.log(JSON.stringify(res)));
-  }
-
-  submitLogin = (name) => {
-    // TODO: attempt login by API call
-    this.setState({
-      user: {name}
-    })
+  async submitLogin(username) {
+    const response = await fetch('/users', {
+      method: 'post',
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+      },
+      body: JSON.stringify({ username })}
+    )
+    if (response.status === 200) {
+      const data = await response.json();
+      this.setState({ 
+        user: data.username,
+        leagues: data.userLeagues,
+        commissioner: data.isCommissioner
+      })
+    }
+    // TODO: handle unsuccessful attempts
   }
 
   render() {
@@ -29,7 +34,7 @@ class App extends Component {
     return (
       <div className="App">
         <MuiThemeProvider theme={theme}>
-          <AppHeader login={this.submitLogin} username={user && user.name} loggedIn={!!user}/>
+          <AppHeader login={this.submitLogin.bind(this)} username={user} loggedIn={!!user}/>
         </MuiThemeProvider>
       </div>
     );

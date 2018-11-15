@@ -1,9 +1,14 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+// TODO: validate username from DB
+const users = ['brendan', 'imey', 'michela', 'aine']
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.status(200).send({message: "Hello from 3001!"});
+/* POST user login. */
+router.post('/', function(req, res) {
+  const username = req.body.username;
+  users.includes(username) ? 
+    res.json(req.body)
+    : res.status(401).send("Invalid username");
 });
 
 module.exports = router;
