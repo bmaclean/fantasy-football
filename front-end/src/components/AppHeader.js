@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
-import {AppBar, Button, IconButton, Toolbar, Typography, withStyles} from '@material-ui/core';
-import {Menu} from '@material-ui/icons';
+import {AppBar, Button, Toolbar, Typography, withStyles} from '@material-ui/core';
 import {LoginBox} from '../components';
 
 class AppHeader extends PureComponent {
@@ -22,11 +21,8 @@ class AppHeader extends PureComponent {
         const {anchorEl, loginOpen} = this.state;
 
         return (
-            <AppBar position="static" color="primary">
+            <AppBar color="primary" className={classes.appBar}>
                 <Toolbar>
-                    <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
-                        <Menu />
-                    </IconButton>
                     <Typography variant="title" color="inherit" className={classes.title}>
                         Fantasy Football
                     </Typography>
@@ -45,14 +41,14 @@ class AppHeader extends PureComponent {
 }
 
 const styles = {
+    appBar: {
+        flexShrink: 1,
+        position: "relative"
+    },
     title: {
         textAlign: 'left',
         flexGrow: 1,
     },
-    menuButton: {
-        marginLeft: -12,
-        marginRight: 20
-    }
 }
 
 export default withStyles(styles)(AppHeader);
