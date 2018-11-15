@@ -6,8 +6,15 @@ import './App.css';
 
 class App extends Component {
   state = {
-    user: null,
+    user: null
   };
+
+  componentDidMount() {
+    // TODO: remove this - proof of concept only
+    fetch('/users')
+      .then(res => res.json())
+      .then(res => console.log(JSON.stringify(res)));
+  }
 
   submitLogin = (name) => {
     // TODO: attempt login by API call
