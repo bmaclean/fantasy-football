@@ -29,5 +29,6 @@
   ],
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.1.2"
-  }
+  },
+  "proxy": "http://localhost:3001"
 }

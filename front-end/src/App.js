@@ -9,11 +9,14 @@ class App extends Component {
     user: null,
   };
 
-  submitLogin = (name) => {
-    // TODO: attempt login by API call
-    this.setState({
-      user: {name}
-    })
+  submitLogin = (username) => {
+    fetch('/users', {
+      method: 'post',
+      body: JSON.stringify({ username })})
+      .then(res => res.json())
+      .then(user => this.setState({
+        user
+      }))
   }
 
   render() {
