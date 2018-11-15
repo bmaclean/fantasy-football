@@ -9,14 +9,23 @@ class App extends Component {
     user: null,
   };
 
-  submitLogin = (username) => {
-    fetch('/users', {
+  async submitLogin(username) {
+    const response = await fetch('/users', {
       method: 'post',
-      body: JSON.stringify({ username })})
-      .then(res => res.json())
-      .then(user => this.setState({
-        user
-      }))
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+      },
+      body: JSON.stringify({ username })}
+    )
+    if (response.status === 200) {
+      const data = await response.json();
+      this.setState({ 
+        user: data.username,
+        leagues: data.userLeagues,
+        commissioner: data.isCommissioner
+      })
+    }
+    // TODO: handle unsuccessful attempts
   }
 
   render() {
@@ -25,7 +34,7 @@ class App extends Component {
     return (
       <div className="App">
         <MuiThemeProvider theme={theme}>
-          <AppHeader login={this.submitLogin} username={user && user.name} loggedIn={!!user}/>
+          <AppHeader login={this.submitLogin.bind(this)} username={user} loggedIn={!!user}/>
         </MuiThemeProvider>
       </div>
     );
