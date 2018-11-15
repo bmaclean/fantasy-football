@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-/* GET users listing. */
+/* POST user login. */
 router.post('/', function(req, res) {
   console.log(req.body)
   // res.json([
