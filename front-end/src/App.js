@@ -1,12 +1,15 @@
-import React, { Component } from 'react';
-import {AppHeader} from './components';
+import React, { PureComponent } from 'react';
+import {AppHeader, AppMenu, MyTeam} from './components';
 import {theme} from './ui';
-import {MuiThemeProvider} from '@material-ui/core';
-import './App.css';
+import {MuiThemeProvider, withStyles} from '@material-ui/core';
 
-class App extends Component {
+class App extends PureComponent {
   state = {
     user: null,
+    leagues: null,
+    currentLeague: null,
+    isCommissioner: null,
+    page: "Home"
   };
 
   async submitLogin(username) {
@@ -15,30 +18,59 @@ class App extends Component {
       headers: {
         "Content-Type": "application/json; charset=utf-8",
       },
-      body: JSON.stringify({ username })}
-    )
+      body: JSON.stringify({ username })
+    })
     if (response.status === 200) {
       const data = await response.json();
       this.setState({ 
         user: data.username,
         leagues: data.userLeagues,
-        commissioner: data.isCommissioner
+        currentLeage: data.userLeagues[0],
+        isCommissioner: data.isCommissioner
       })
     }
     // TODO: handle unsuccessful attempts
   }
 
+  async getTeam(username) {
+    const {currentLeague} = this.state;
+    const response = await fetch('/team', {
+      method: 'post',
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+      },
+      // get players that play for useggrname in league
+      body: JSON.stringify({ username, currentLeague })
+    })
+    const players = await response.json()
+    return players;
+  }
+
+  setPage = page => {
+    this.setState({ page });
+  }
+
   render() {
-    const {user} = this.state;
+    const {classes} = this.props;
+    const {user, isCommissioner, leagues, page} = this.state;
 
     return (
-      <div className="App">
+      <div className={classes.root}>
         <MuiThemeProvider theme={theme}>
+          <AppMenu username={user} isCommissioner={isCommissioner} setPage={this.setPage.bind(this)}/>
           <AppHeader login={this.submitLogin.bind(this)} username={user} loggedIn={!!user}/>
+          {page === "My Team" && <MyTeam players={this.getTeam(user)} />}
         </MuiThemeProvider>
       </div>
     );
   }
 }
 
-export default App;
+const styles = {
+  root: {
+    display: 'flex',
+    width: "100%",
+    backgroundColor: '#EEEEEE'
+  }
+}
+export default withStyles(styles)(App);
