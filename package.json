@@ -9,7 +9,7 @@
   "scripts": {
     "client": "cd front-end && npm run start",
     "server": "cd server && npm run start",
-    "start": "concurrently --kill-others \"npm run server\" \"npm run client\"",
+    "start": "concurrently \"npm run server\" \"npm run client\"",
     "pre": "cd front-end && npm install && cd ../server && npm install && cd .."
   },
   "keywords": [],
