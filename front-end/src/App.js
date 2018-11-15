@@ -6,7 +6,7 @@ import './App.css';
 
 class App extends Component {
   state = {
-    user: null,
+    user: null
   };
 
   async submitLogin(username) {
