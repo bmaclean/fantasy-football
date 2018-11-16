@@ -5,6 +5,13 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 
+require('dotenv').config();
+const manager = require('./src/db-manager.js');
+// TODO: remove -- this is all proof of concept
+manager.query('SELECT $1::text as message', ['Hello world!']);
+manager.dropTable(' IF EXISTS items');
+manager.createTable('CREATE TABLE items(id SERIAL PRIMARY KEY, text VARCHAR(40) not null, complete BOOLEAN)');
+
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const teamRouter = require('./routes/team');
