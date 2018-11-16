@@ -22,7 +22,7 @@ class App extends PureComponent {
     })
     if (response.status === 200) {
       const data = await response.json();
-      this.setState({ 
+      this.setState({
         user: data.username,
         leagues: data.userLeagues,
         currentLeage: data.userLeagues[0],
@@ -39,7 +39,7 @@ class App extends PureComponent {
       headers: {
         "Content-Type": "application/json; charset=utf-8",
       },
-      // get players that play for useggrname in league
+      // get players that play for username in league
       body: JSON.stringify({ username, currentLeague })
     })
     const players = await response.json()

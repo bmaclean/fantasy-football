@@ -27,10 +27,10 @@ class AppHeader extends PureComponent {
                         Fantasy Football
                     </Typography>
 
-                    {!loggedIn && 
+                    {!loggedIn &&
                         <Button color="inherit" onClick={this.openLogin.bind(this)}>Login</Button>
                     }
-                    {loggedIn && 
+                    {loggedIn &&
                         <Typography color="inherit"> Welcome, {username}!</Typography>
                     }
                     <LoginBox anchor={anchorEl} open={loginOpen} close={this.closeLogin.bind(this)} submit={login}/>
