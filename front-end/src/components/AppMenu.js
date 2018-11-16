@@ -8,7 +8,7 @@ class AppMenu extends PureComponent {
     handlePageSelect = () => {
 
     }
-    
+
     render() {
         const {classes, isCommissioner, username, setPage} = this.props;
 
@@ -35,20 +35,51 @@ class AppMenu extends PureComponent {
                 </List>
                 )}
                 <Divider />
-                <List>
-                    <ListItem button>
-                        <ListItemIcon><BarChart /></ListItemIcon>
-                        <ListItemText primary="My League" />
-                    </ListItem>
-                    <ListItem button onClick={() => setPage("My Team")}>
-                        <ListItemIcon><Notes /></ListItemIcon>
-                        <ListItemText primary="My Team" />
-                    </ListItem>
-                    <ListItem button>
+                {username && (
+                  <List>
+                      <ListItem button>
+                          <ListItemIcon><BarChart /></ListItemIcon>
+                          <ListItemText primary="Trade a Players" />
+                      </ListItem>
+                      <ListItem button>
+                          <ListItemIcon><BarChart /></ListItemIcon>
+                          <ListItemText primary="Draft Player" />
+                      </ListItem>
+                      <ListItem button onClick={() => setPage("My Team")}>
+                          <ListItemIcon><Notes /></ListItemIcon>
+                          <ListItemText primary="My Team" />
+                      </ListItem>
+                      <ListItem button>
+                          <ListItemIcon><People /></ListItemIcon>
+                          <ListItemText primary="My Players' Teams" />
+                      </ListItem>
+                      <ListItem button>
                         <ListItemIcon><People /></ListItemIcon>
-                        <ListItemText primary="Free Agents" />
-                    </ListItem>
+                        <ListItemText primary="Highest Ranking User" />
+                      </ListItem>
+                  {isCommissioner && (
+                    <div>
+                      <ListItem button>
+                          <ListItemIcon><People /></ListItemIcon>
+                          <ListItemText primary="Remove Players" />
+                      </ListItem>
+                      <ListItem button>
+                          <ListItemIcon><People /></ListItemIcon>
+                          <ListItemText primary="Update Username" />
+                      </ListItem>
+                      <ListItem button>
+                        <ListItemIcon><People /></ListItemIcon>
+                        <ListItemText primary="Update Username" />
+                      </ListItem>
+                      <ListItem button>
+                        <ListItemIcon><People /></ListItemIcon>
+                        <ListItemText primary="Create New Match" />
+                      </ListItem>
+                    </div>
+                  )}
                 </List>
+                )}
+
             </Drawer>
         )
     }
