@@ -3,12 +3,6 @@ import {Paper, Table, TableBody, TableCell, TableHead, TableRow, withStyles,
     Divider, Drawer, List, ListItem, ListItemIcon, ListItemText} from '@material-ui/core';
 
 class TradePlayer extends PureComponent {
-    /*constructor(props){
-      super(props);
-      this.state = {value: ''};
-      this.handleChange = this.handleChange.bind(this);
-    }
-    */
 
     state = {
         players: [],
@@ -30,11 +24,6 @@ class TradePlayer extends PureComponent {
         /* TODO: add PID from table, remove from other */
       }
     }
-/*
-    handleChange(event){
-      this.setState({value: event.target.value});
-    }
-*/
     render() {
         const {classes} = this.props;
         const {players} = this.state;
