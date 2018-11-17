@@ -4,6 +4,7 @@
 */
 
 const NFLFetch = require('./nfl-fetch');
+const fs = require('fs');
 // Cumulative season stats for all players
 const fetchResponse = NFLFetch.getPlayerStats();
 
@@ -42,3 +43,6 @@ async function getStats() {
         })
     )
 }
+
+// const players = getPlayers();
+// players.then(data=>(fs.writeFile('nflPlayers.txt', JSON.stringify(data), ()=>{})))

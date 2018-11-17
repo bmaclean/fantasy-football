@@ -8,9 +8,11 @@ const temp_leagues = ['']
 /* POST user login. */
 router.post('/', async function(req, res) {
   const username = req.body.username;
-  const query = await manager.query('SELECT * FROM pg_catalog.pg_tables;');
-  console.log(query)
-  temp_users.includes(username) ?
+  // TODO we need a join to see get the user's league(s)
+  const query = await manager.query('SELECT username FROM public.users WHERE username = \'' + username + '\';');
+  console.log(query.rows.some(user => user.username.trim() === username))
+  const userExists = query.rows.some(user => user.username.trim() === username);
+  userExists ?
     res.json({"username": username, "userLeagues": ['0001', '0002', '0101'], "isCommissioner": true})
     : res.status(401).send("Invalid username");
 });
