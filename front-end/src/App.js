@@ -13,20 +13,38 @@ class App extends PureComponent {
     page: "Home"
   };
 
-  async submitLogin(username) {
-    const response = await fetch('/users', {
+  async submitLogin(username, password) {
+    const response = await fetch('/users/login', {
       method: 'post',
       headers: {
         "Content-Type": "application/json; charset=utf-8",
       },
-      body: JSON.stringify({ username })
+      body: JSON.stringify({ username, password })
     })
     if (response.status === 200) {
       const data = await response.json();
       this.setState({
         user: data.username,
         leagues: data.userLeagues,
-        currentLeage: data.userLeagues[0],
+        currentLeague: data.userLeagues[0],
+        isCommissioner: data.isCommissioner
+      })
+    }
+    // TODO: handle unsuccessful attempts
+  }
+
+  async registerUser(username, password) {
+    const response = await fetch('/users/register', {
+      method: 'post',
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+      },
+      body: JSON.stringify({ username, password })
+    })
+    if (response.status === 200) {
+      const data = await response.json();
+      this.setState({
+        user: data.username,
         isCommissioner: data.isCommissioner
       })
     }
@@ -73,7 +91,7 @@ class App extends PureComponent {
       <div className={classes.root}>
         <MuiThemeProvider theme={theme}>
           <AppMenu username={user} isCommissioner={isCommissioner} setPage={this.setPage.bind(this)}/>
-          <AppHeader login={this.submitLogin.bind(this)} username={user} loggedIn={!!user}/>
+          <AppHeader login={this.submitLogin.bind(this)} register={this.registerUser.bind(this)} username={user} loggedIn={!!user}/>
           {page === "My Team" && <MyTeam players={this.getTeam(user)} />}
           {page === "Trade Player" && <TradePlayer players={this.getTeam(user)}/>}
           {page === "Draft Player" && <DraftPlayer players={this.getTeam()}/>}

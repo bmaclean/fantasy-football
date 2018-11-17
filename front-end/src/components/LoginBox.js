@@ -9,9 +9,16 @@ class LoginBox extends PureComponent {
 
     handleLogin() {
         const {close, submit} = this.props;
-        const {username} = this.state;
+        const {username, password} = this.state;
         close();
-        submit(username);
+        submit(username, password);
+    }
+
+    handleRegister() {
+        const {close, register} = this.props;
+        const {username, password} = this.state;
+        close();
+        register(username, password);
     }
 
     handleChange = name => event => {
@@ -43,7 +50,7 @@ class LoginBox extends PureComponent {
                         value={password}
                         onChange={this.handleChange('password')}/>
                 <><Button className={classes.input} color="primary" onClick={this.handleLogin.bind(this)}>Login</Button>
-                <Button color="primary" onClick={this.handleLogin.bind(this)}>Register</Button></>
+                <Button color="primary" onClick={this.handleRegister.bind(this)}>Register</Button></>
             </Popover>
         )
     }
