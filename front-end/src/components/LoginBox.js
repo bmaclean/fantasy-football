@@ -4,6 +4,7 @@ import {Button, Popover, TextField, withStyles} from '@material-ui/core';
 class LoginBox extends PureComponent {
     state = {
         username: '',
+        password: ''
     };
 
     handleLogin() {
@@ -21,7 +22,7 @@ class LoginBox extends PureComponent {
 
     render() {
         const {anchor, open, classes} = this.props;
-        const {username} = this.state;
+        const {username, password} = this.state;
 
         return (
             <Popover
@@ -34,7 +35,15 @@ class LoginBox extends PureComponent {
                     margin="normal"
                     value={username}
                     onChange={this.handleChange('username')}/>
-                <Button className={classes.input} color="primary" onClick={this.handleLogin.bind(this)}>Login</Button>
+                    <TextField
+                        className={classes.input}
+                        label="Password"
+                        type="password"
+                        margin="normal"
+                        value={password}
+                        onChange={this.handleChange('password')}/>
+                <><Button className={classes.input} color="primary" onClick={this.handleLogin.bind(this)}>Login</Button>
+                <Button color="primary" onClick={this.handleLogin.bind(this)}>Register</Button></>
             </Popover>
         )
     }
