@@ -26,7 +26,7 @@ class App extends PureComponent {
       this.setState({
         user: data.username,
         leagues: data.userLeagues,
-        currentLeage: data.userLeagues[0],
+        currentLeague: data.userLeagues[0],
         isCommissioner: data.isCommissioner
       })
     }
