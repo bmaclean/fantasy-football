@@ -17,8 +17,8 @@ class MyTeam extends PureComponent {
         return (
             <Paper className={classes.teamTable}>
                 <h> Enter your desired username:</h>
-                <input type="text" id="myText" value=" ">
-                </input>
+                  <input className={classes.textShift} type="text" id="myText" value={this.state.value}
+                    onChange={this.handleChange}/>
             </Paper>
         )
     }

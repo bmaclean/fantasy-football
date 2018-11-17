@@ -43,7 +43,7 @@ const styles = {
         position: "absolute",
         marginTop: 130,
         marginLeft: 400,
-        width: 500,
+        width: 200,
         elevation: 2
     }
 }
