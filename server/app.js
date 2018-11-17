@@ -15,6 +15,7 @@ manager.createTable('CREATE TABLE items(id SERIAL PRIMARY KEY, text VARCHAR(40) 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const teamRouter = require('./routes/team');
+const playersRouter = require('./routes/players');
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/team', teamRouter);
+app.use('/players', playersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
