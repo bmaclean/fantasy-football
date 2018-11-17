@@ -27,10 +27,24 @@ class AppMenu extends PureComponent {
                         <ListItemText primary={username} />
                     </ListItem>
                     {isCommissioner && (
-                        <ListItem button>
-                            <ListItemIcon><Gavel /></ListItemIcon>
-                            <ListItemText primary="Commissioner Settings" />
-                        </ListItem>
+                        <>
+                            <ListItem button>
+                                <ListItemIcon><Gavel /></ListItemIcon>
+                                <ListItemText primary="Commissioner Settings" />
+                            </ListItem>
+                            <ListItem button onClick={() => setPage("Remove Players")}>
+                                {/* <ListItemIcon><People /></ListItemIcon> */}
+                                <ListItemText primary="Manage Users" />
+                            </ListItem>
+                            <ListItem button onClick={() => setPage("Update Username")}>
+                                {/* <ListItemIcon><People /></ListItemIcon> */}
+                                <ListItemText primary="Update Username" />
+                            </ListItem>
+                            <ListItem button onClick={() => setPage("Create New Match")}>
+                                {/* <ListItemIcon><People /></ListItemIcon> */}
+                                <ListItemText primary="Create New Match" />
+                            </ListItem>
+                        </>
                     )}
                 </List>
                 )}
@@ -57,23 +71,7 @@ class AppMenu extends PureComponent {
                         <ListItemIcon><People /></ListItemIcon>
                         <ListItemText primary="Highest Ranking User" />
                       </ListItem>
-                  {isCommissioner && (
-                    <div>
-                      <ListItem button onClick={() => setPage("Remove Players")}>
-                          <ListItemIcon><People /></ListItemIcon>
-                          <ListItemText primary="Remove Players" />
-                      </ListItem>
-                      <ListItem button onClick={() => setPage("Update Username")}>
-                          <ListItemIcon><People /></ListItemIcon>
-                          <ListItemText primary="Update Username" />
-                      </ListItem>
-                      <ListItem button onClick={() => setPage("Create New Match")}>
-                        <ListItemIcon><People /></ListItemIcon>
-                        <ListItemText primary="Create New Match" />
-                      </ListItem>
-                    </div>
-                  )}
-                </List>
+                      </List>
                 )}
 
             </Drawer>
