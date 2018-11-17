@@ -6,15 +6,11 @@ const manager = require('../src/db-manager.js');
 router.post('/login', async function(req, res) {
   const username = req.body.username;
   const password = req.body.password;
-  console.log(1)
   const userQuery = await manager.query('SELECT username, passwords FROM public.users WHERE username = \'' + username + '\';');
   const leagueQuery = await manager.query('SELECT leaguename FROM playsin WHERE username = \'' + username + '\';');
-  console.log(2)
   const leagues = leagueQuery.rows.map(league => league.leaguename.trim());
-  console.log(3)
   const commishQuery = await manager.query('SELECT commissioner_username FROM commissioner WHERE commissioner_username = \'' + username + '\';');
   const isCommissioner = !!commishQuery.rows.length;
-  console.log(4)
   const userExists = userQuery.rows.some(user => user.username.trim() === username && user.passwords.trim() === password);
   userExists ?
     res.json({"username": username, "userLeagues": leagues, "isCommissioner": isCommissioner})
@@ -24,7 +20,6 @@ router.post('/login', async function(req, res) {
 router.post('/register', async function(req, res) {
   const username = req.body.username; 
   const password = req.body.password;
-  console.log(username, password);
   // TODO we need a join to see get the user's league(s)
   const query = await manager.query('INSERT INTO users(username, passwords) VALUES (\'' + username + '\', \'' + password + '\');');
   console.log(query);
