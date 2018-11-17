@@ -3,13 +3,20 @@ var router = express.Router();
 const manager = require('../src/db-manager.js');
 
 const DROP_QUERY = 'DELETE FROM playsfor WHERE pid = $1 AND username = $2 AND leaguename = $3';
+const ADD_QUERY = 'INSERT INTO playsfor VALUES($1, $2, $3)';
+const ERROR_NAME = 'error';
 
-router.post('/add', function(req, res, next) {
-  // STUB
+router.post('/add', async function(req, res, next) {
   let pid = req.body.pid;
   let username = req.body.username;
   let leaguename = req.body.leaguename;
-  res.json({ operation: "add", player: pid, user: username, league: leaguename });
+  let params = [username, leaguename, pid];
+  const result = await manager.query(ADD_QUERY, params);
+  if (result.name === ERROR_NAME) {
+    res.status(401).send("Add player unsuccessful. Detail: " + result.detail);
+  } else {
+    res.status(201).send("Player added successfully.");
+  }
 });
 
 router.post('/drop', async function(req, res, next) {
