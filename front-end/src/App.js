@@ -46,6 +46,7 @@ class App extends PureComponent {
     const players = await response.json()
     return players;
   }
+  
   async getTeam(username) {
     const {currentLeague} = this.state;
     const response = await fetch('/team', {

@@ -2,7 +2,7 @@ const client = require('./db-connect.js');
 
 const runQuery = (str, values) => {
   return client.query(str, values)
-          .then((res) => console.log(res))
+          .then((res) => res)
           .catch((err) => console.log(`${JSON.stringify(err)}`));
 }
 
