@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
-import {AppHeader, AppMenu, MyTeam} from './components';
+import {AppHeader, AppMenu, MyTeam, TradePlayer, DraftPlayer, PlayersTeams,
+      HighestRankingUser, RemovePlayers, UpdateUsername, CreateNewMatch} from './components';
 import {theme} from './ui';
 import {MuiThemeProvider, withStyles} from '@material-ui/core';
 
@@ -32,6 +33,19 @@ class App extends PureComponent {
     // TODO: handle unsuccessful attempts
   }
 
+  async getTeam() {
+    const {currentLeague} = this.state;
+    const response = await fetch('/team', {
+      method: 'post',
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+      },
+      // get players that play for username in league
+      body: JSON.stringify({ currentLeague })
+    })
+    const players = await response.json()
+    return players;
+  }
   async getTeam(username) {
     const {currentLeague} = this.state;
     const response = await fetch('/team', {
@@ -60,6 +74,13 @@ class App extends PureComponent {
           <AppMenu username={user} isCommissioner={isCommissioner} setPage={this.setPage.bind(this)}/>
           <AppHeader login={this.submitLogin.bind(this)} username={user} loggedIn={!!user}/>
           {page === "My Team" && <MyTeam players={this.getTeam(user)} />}
+          {page === "Trade Player" && <TradePlayer players={this.getTeam(user)}/>}
+          {page === "Draft Player" && <DraftPlayer players={this.getTeam()}/>}
+          {page === "Players Teams" && <PlayersTeams players={this.getTeam(user)}/>}
+          {page === "Highest Ranking User" && <HighestRankingUser username={user}/>}
+          {page === "Remove Players" && <RemovePlayers players={this.getTeam(user)} />}
+          {page === "Update Username" && <UpdateUsername/>}
+          {page === "Create New Match" && <CreateNewMatch/>}
         </MuiThemeProvider>
       </div>
     );

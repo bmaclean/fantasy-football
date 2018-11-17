@@ -37,11 +37,11 @@ class AppMenu extends PureComponent {
                 <Divider />
                 {username && (
                   <List>
-                      <ListItem button>
+                      <ListItem button onClick={() => setPage("Trade Player")}>
                           <ListItemIcon><BarChart /></ListItemIcon>
-                          <ListItemText primary="Trade a Players" />
+                          <ListItemText primary="Trade a Player" />
                       </ListItem>
-                      <ListItem button>
+                      <ListItem button onClick={() => setPage("Draft Player")}>
                           <ListItemIcon><BarChart /></ListItemIcon>
                           <ListItemText primary="Draft Player" />
                       </ListItem>
@@ -49,29 +49,25 @@ class AppMenu extends PureComponent {
                           <ListItemIcon><Notes /></ListItemIcon>
                           <ListItemText primary="My Team" />
                       </ListItem>
-                      <ListItem button>
+                      <ListItem button onClick={() => setPage("Players Teams")}>
                           <ListItemIcon><People /></ListItemIcon>
                           <ListItemText primary="My Players' Teams" />
                       </ListItem>
-                      <ListItem button>
+                      <ListItem button onClick={() => setPage("Highest Ranking User")}>
                         <ListItemIcon><People /></ListItemIcon>
                         <ListItemText primary="Highest Ranking User" />
                       </ListItem>
                   {isCommissioner && (
                     <div>
-                      <ListItem button>
+                      <ListItem button onClick={() => setPage("Remove Players")}>
                           <ListItemIcon><People /></ListItemIcon>
                           <ListItemText primary="Remove Players" />
                       </ListItem>
-                      <ListItem button>
+                      <ListItem button onClick={() => setPage("Update Username")}>
                           <ListItemIcon><People /></ListItemIcon>
                           <ListItemText primary="Update Username" />
                       </ListItem>
-                      <ListItem button>
-                        <ListItemIcon><People /></ListItemIcon>
-                        <ListItemText primary="Update Username" />
-                      </ListItem>
-                      <ListItem button>
+                      <ListItem button onClick={() => setPage("Create New Match")}>
                         <ListItemIcon><People /></ListItemIcon>
                         <ListItemText primary="Create New Match" />
                       </ListItem>
