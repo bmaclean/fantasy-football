@@ -17,7 +17,7 @@ class AppHeader extends PureComponent {
     }
 
     render() {
-        const {classes, username, loggedIn, login} = this.props;
+        const {classes, username, loggedIn, login, register} = this.props;
         const {anchorEl, loginOpen} = this.state;
 
         return (
@@ -33,7 +33,7 @@ class AppHeader extends PureComponent {
                     {loggedIn &&
                         <Typography color="inherit"> Welcome, {username}!</Typography>
                     }
-                    <LoginBox anchor={anchorEl} open={loginOpen} close={this.closeLogin.bind(this)} submit={login}/>
+                    <LoginBox anchor={anchorEl} open={loginOpen} close={this.closeLogin.bind(this)} submit={login} register={register}/>
                 </Toolbar>
             </AppBar>
         )
