@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import {Paper, Typography, withStyles} from '@material-ui/core';
+import {Paper, withStyles} from '@material-ui/core';
 
 class MyTeam extends PureComponent {
   state = {

@@ -37,8 +37,8 @@ router.post('/new', async function(req, res) {
   // TODO: NaN
   const user1Score = await getUserScoreForWeek(user1, league, gameWeek);
   const user2Score = await getUserScoreForWeek(user2, league, gameWeek);
-  const matchupInsert = await manager.query(INSERT_NEW_MATCHUP_QUERY, [356435643, user1, user2, gameWeek, 
-    32, 34, league]);
+  const matchupInsert = await manager.query(INSERT_NEW_MATCHUP_QUERY, [gameID, user1, user2, gameWeek, 
+    user1Score, user2Score, league]);
   console.log(matchupInsert);
 
   res.status(201).send("Matchup successfully created.");
