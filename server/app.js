@@ -17,6 +17,7 @@ const usersRouter = require('./routes/users');
 const teamRouter = require('./routes/team');
 const playersRouter = require('./routes/players');
 const matchupsRouter = require('./routes/matchups');
+const leagueRouter = require('./routes/league');
 
 const app = express();
 
@@ -37,6 +38,7 @@ app.use('/users', usersRouter);
 app.use('/team', teamRouter);
 app.use('/players', playersRouter);
 app.use('/matchups', matchupsRouter);
+app.use('/league', leagueRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

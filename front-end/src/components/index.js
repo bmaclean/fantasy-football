@@ -8,4 +8,6 @@ export {default as PlayersTeams} from './PlayersTeams';
 export {default as HighestRankingUser} from './HighestRankingUser';
 export {default as RemovePlayers} from './RemovePlayers';
 export {default as UpdateUsername} from './UpdateUsername';
-export {default as CreateNewMatch} from './CreateNewMatch';
+export {default as CreateMatch} from './CreateMatch';
+export {default as LeagueUsers} from './LeagueUsers';
+export {default as ManageUsers} from './ManageUsers';

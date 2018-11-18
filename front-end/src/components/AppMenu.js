@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {Divider, Drawer, List, ListItem, ListItemIcon, ListItemText, withStyles} from '@material-ui/core';
-import {AccountCircle, BarChart, Notes, Gavel, People} from '@material-ui/icons'
+import {AccountCircle, BarChart, Notes, Gavel, People, Shuffle} from '@material-ui/icons'
 
 
 class AppMenu extends PureComponent {
@@ -22,21 +22,37 @@ class AppMenu extends PureComponent {
                 anchor="left">
                 {username && (
                 <List>
-                    <ListItem button>
+                    <ListItem>
                         <ListItemIcon><AccountCircle /></ListItemIcon>
                         <ListItemText primary={username} />
                     </ListItem>
                     {isCommissioner && (
-                        <ListItem button>
-                            <ListItemIcon><Gavel /></ListItemIcon>
-                            <ListItemText primary="Commissioner Settings" />
-                        </ListItem>
+                        <>
+                            <ListItem>
+                                <ListItemText primary="Commissioner Settings" />
+                            </ListItem>
+                            <ListItem button onClick={() => setPage("Manage Users")}>
+                                <ListItemIcon><Gavel /></ListItemIcon>
+                                <ListItemText primary="Manage Users" />
+                            </ListItem>
+                            {/* <ListItem button onClick={() => setPage("Update Username")}>
+                                <ListItemIcon><People /></ListItemIcon>
+                                <ListItemText primary="Update Username" />
+                            </ListItem> */}
+                            <ListItem button onClick={() => setPage("Create Match")}>
+                                <ListItemIcon><Shuffle /></ListItemIcon>
+                                <ListItemText primary="Create Match" />
+                            </ListItem>
+                        </>
                     )}
                 </List>
                 )}
                 <Divider />
                 {username && (
                   <List>
+                      <ListItem>
+                          <ListItemText primary="League Settings" />
+                      </ListItem>
                       <ListItem button onClick={() => setPage("Trade Player")}>
                           <ListItemIcon><BarChart /></ListItemIcon>
                           <ListItemText primary="Trade a Player" />
@@ -57,23 +73,7 @@ class AppMenu extends PureComponent {
                         <ListItemIcon><People /></ListItemIcon>
                         <ListItemText primary="Highest Ranking User" />
                       </ListItem>
-                  {isCommissioner && (
-                    <div>
-                      <ListItem button onClick={() => setPage("Remove Players")}>
-                          <ListItemIcon><People /></ListItemIcon>
-                          <ListItemText primary="Remove Players" />
-                      </ListItem>
-                      <ListItem button onClick={() => setPage("Update Username")}>
-                          <ListItemIcon><People /></ListItemIcon>
-                          <ListItemText primary="Update Username" />
-                      </ListItem>
-                      <ListItem button onClick={() => setPage("Create New Match")}>
-                        <ListItemIcon><People /></ListItemIcon>
-                        <ListItemText primary="Create New Match" />
-                      </ListItem>
-                    </div>
-                  )}
-                </List>
+                      </List>
                 )}
 
             </Drawer>

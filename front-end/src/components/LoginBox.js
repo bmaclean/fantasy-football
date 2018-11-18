@@ -42,13 +42,13 @@ class LoginBox extends PureComponent {
                     margin="normal"
                     value={username}
                     onChange={this.handleChange('username')}/>
-                    <TextField
-                        className={classes.input}
-                        label="Password"
-                        type="password"
-                        margin="normal"
-                        value={password}
-                        onChange={this.handleChange('password')}/>
+                <TextField
+                    className={classes.input}
+                    label="Password"
+                    type="password"
+                    margin="normal"
+                    value={password}
+                    onChange={this.handleChange('password')}/>
                 <><Button className={classes.input} color="primary" onClick={this.handleLogin.bind(this)}>Login</Button>
                 <Button color="primary" onClick={this.handleRegister.bind(this)}>Register</Button></>
             </Popover>
