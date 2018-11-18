@@ -36,7 +36,6 @@ class App extends PureComponent {
   async dropPlayer(pid) {
   const username = this.state.user;
   const leaguename = this.state.currentLeague;
-  console.log(`${username}, ${leaguename}`);
    const response = await fetch('/players/drop', {
      method: 'post',
      headers: {
@@ -44,7 +43,6 @@ class App extends PureComponent {
      },
      body: JSON.stringify({ pid, username, leaguename }) /* */
    })
-   console.log(response);
    // TODO: handle unsuccessful attempts
  }
 
