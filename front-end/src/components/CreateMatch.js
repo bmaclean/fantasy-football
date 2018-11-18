@@ -65,8 +65,6 @@ class CreateMatch extends PureComponent {
                 <div className={classes.formRow}>
                     <span/>
                     <Button 
-                        aria-owns={anchorEl ? 'simple-menu' : undefined}
-                        aria-haspopup="true"
                         onClick={this.openMenu.bind(this)}
                         className={classes.user1}
                         color='secondary'
@@ -76,11 +74,9 @@ class CreateMatch extends PureComponent {
                             {user1 || "User 1"}
                     </Button>
                     <Button 
-                        aria-owns={anchorEl ? 'simple-menu' : undefined}
-                        aria-haspopup="true"
                         onClick={this.openMenu.bind(this)}
                         className={classes.vs}
-                        color='grey'
+                        color='secondary'
                         variant='outlined'
                         disabled
                         > 
@@ -173,11 +169,11 @@ class CreateMatch extends PureComponent {
 const styles = {
     matchForm: {
         flexDirection: 'column',
-        elevantion: 3,
+        elevation: 3,
         position: 'absolute',
         display: 'flex',
         marginLeft: 400,
-        marginTop: 150,
+        marginTop: 130,
         width: 600,
         height: 400,
     },

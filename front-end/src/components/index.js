@@ -10,3 +10,4 @@ export {default as RemovePlayers} from './RemovePlayers';
 export {default as UpdateUsername} from './UpdateUsername';
 export {default as CreateMatch} from './CreateMatch';
 export {default as LeagueUsers} from './LeagueUsers';
+export {default as ManageUsers} from './ManageUsers';
