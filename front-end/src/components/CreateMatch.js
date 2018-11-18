@@ -195,4 +195,5 @@ const styles = {
         marginTop: 40
     }
 }
+
 export default withStyles(styles)(CreateMatch);

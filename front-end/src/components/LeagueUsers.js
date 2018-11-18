@@ -32,7 +32,7 @@ class LeagueUsers extends PureComponent {
     }
 
     render() {
-        const {classes, anchorEl, open, close} = this.props;
+        const {anchorEl, open, close} = this.props;
         const {users} = this.state;
         const userList = users || [];
 

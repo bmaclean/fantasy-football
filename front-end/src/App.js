@@ -80,6 +80,7 @@ class App extends PureComponent {
   }
 
   async submitMatchup(user1, user2, year, week) {
+    const {league} = this.state;
     console.log(user1, user2, year, week)
   }
 
