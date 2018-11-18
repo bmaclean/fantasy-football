@@ -1,21 +1,43 @@
 import React, { PureComponent } from 'react';
-import {Paper, withStyles} from '@material-ui/core';
+import {Paper, Table, TableBody, TableCell, TableHead, TableRow, withStyles} from '@material-ui/core';
 
-class MyTeam extends PureComponent {
-  state = {
-      username: []
-  }
-  componentDidMount() {
-      // this.props.user.then(username => this.setState({ username }))
-  }
+class HighestRankingUser extends PureComponent {
+    state = {
+        users: []
+    }
+
+    componentDidMount() {
+        this.props.users.then(users => this.setState({ users }))
+    }
 
     render() {
         const {classes} = this.props;
-        const {username} = this.state;
+        const {users} = this.state;
+        let rank = 0;
 
         return (
             <Paper className={classes.teamTable}>
-                <h> The highest ranking user in your league is: {username}</h>
+              <h3> The highest ranking user in your league is: {users.length > 0 ? users[0].username : ""}</h3>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Rank</TableCell>
+                            <TableCell>Username</TableCell>
+                            <TableCell>Total Score</TableCell>
+                            {/* <TableCell>Action</TableCell> */}
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {users.map(user => (
+                            <TableRow key={++rank}>
+                                <TableCell>{rank}</TableCell>
+                                <TableCell>{user.username}</TableCell>
+                                <TableCell>{user.score}</TableCell>
+                                {/* <TableCell>*drop button*</TableCell> */}
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
             </Paper>
         )
     }
@@ -30,4 +52,4 @@ const styles = {
         elevation: 2
     }
 }
-export default withStyles(styles)(MyTeam);
+export default withStyles(styles)(HighestRankingUser);

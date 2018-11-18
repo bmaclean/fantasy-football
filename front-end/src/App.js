@@ -100,6 +100,22 @@ class App extends PureComponent {
     }
   }
 
+  async getLeaderboard() {
+    const leaguename = this.state.currentLeague;
+    const response = await fetch('/leaderboard', {
+      method: 'post',
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+      },
+      body: JSON.stringify({ leaguename })
+    });
+    if (response.status === 200) {
+      return await response.json();
+    } else {
+      return [];
+    }
+  }
+
   async getTeam(username) {
     const {currentLeague} = this.state;
     const response = await fetch('/team', {
@@ -193,7 +209,7 @@ class App extends PureComponent {
           {page === "Trade Player" && <TradePlayer players={this.getTeam(user)}/>}
           {page === "Free Agents" && <FreeAgents addPlayer={this.addPlayer.bind(this)} players={this.getFreeAgents()}/>}
           {page === "Players Teams" && <PlayersTeams players={this.getTeam(user)}/>}
-          {page === "Highest Ranking User" && <HighestRankingUser username={user}/>}
+          {page === "Highest Ranking User" && <HighestRankingUser users={this.getLeaderboard()}/>}
           {page === "Remove Players" && <RemovePlayers players={this.getTeam(user)} dropPlayer={this.dropPlayer.bind(this)}/>}
           {page === "Update Alias" && <UpdateAlias updatealias={this.updatealias.bind(this)}/>}
         </MuiThemeProvider>
