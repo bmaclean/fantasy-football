@@ -12,7 +12,6 @@ class MyTeam extends PureComponent {
     render() {
         const {classes} = this.props;
         const {username} = this.state;
-        debugger;
 
         return (
             <Paper className={classes.teamTable}>

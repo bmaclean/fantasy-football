@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {Divider, Drawer, List, ListItem, ListItemIcon, ListItemText, withStyles} from '@material-ui/core';
-import {AccountCircle, BarChart, Notes, Gavel, People, Shuffle} from '@material-ui/icons'
+import {AccountCircle, BarChart, GroupAdd, Gavel, Notes, People, Shuffle} from '@material-ui/icons'
 
 
 class AppMenu extends PureComponent {
@@ -35,10 +35,10 @@ class AppMenu extends PureComponent {
                                 <ListItemIcon><Gavel /></ListItemIcon>
                                 <ListItemText primary="Manage Users" />
                             </ListItem>
-                            {/* <ListItem button onClick={() => setPage("Update Username")}>
+                            { <ListItem button onClick={() => setPage("Update Alias")}>
                                 <ListItemIcon><People /></ListItemIcon>
-                                <ListItemText primary="Update Username" />
-                            </ListItem> */}
+                                <ListItemText primary="Update My Alias" />
+                            </ListItem>}
                             <ListItem button onClick={() => setPage("Create Match")}>
                                 <ListItemIcon><Shuffle /></ListItemIcon>
                                 <ListItemText primary="Create Match" />
@@ -51,20 +51,21 @@ class AppMenu extends PureComponent {
                 {username && (
                   <List>
                       <ListItem>
-                          <ListItemText primary="League Settings" />
-                      </ListItem>
-                      <ListItem button onClick={() => setPage("Trade Player")}>
-                          <ListItemIcon><BarChart /></ListItemIcon>
-                          <ListItemText primary="Trade a Player" />
-                      </ListItem>
-                      <ListItem button onClick={() => setPage("Draft Player")}>
-                          <ListItemIcon><BarChart /></ListItemIcon>
-                          <ListItemText primary="Draft Player" />
+                          <ListItemText primary="League Options" />
                       </ListItem>
                       <ListItem button onClick={() => setPage("My Team")}>
                           <ListItemIcon><Notes /></ListItemIcon>
                           <ListItemText primary="My Team" />
                       </ListItem>
+                      <ListItem button onClick={() => setPage("Free Agents")}>
+                          <ListItemIcon><GroupAdd /></ListItemIcon>
+                          <ListItemText primary="Free Agents" />
+                      </ListItem>
+                      <ListItem button onClick={() => setPage("Trade Player")}>
+                          <ListItemIcon><BarChart /></ListItemIcon>
+                          <ListItemText primary="Trade a Player" />
+                      </ListItem>
+                      {/* TODO: are we finishing this? */}
                       <ListItem button onClick={() => setPage("Players Teams")}>
                           <ListItemIcon><People /></ListItemIcon>
                           <ListItemText primary="My Players' Teams" />
@@ -72,6 +73,10 @@ class AppMenu extends PureComponent {
                       <ListItem button onClick={() => setPage("Highest Ranking User")}>
                         <ListItemIcon><People /></ListItemIcon>
                         <ListItemText primary="Highest Ranking User" />
+                      </ListItem>
+                      <ListItem button onClick={() => setPage("Remove Players")}>
+                          <ListItemIcon><People /></ListItemIcon>
+                          <ListItemText primary="Remove Players from Roster" />
                       </ListItem>
                       </List>
                 )}

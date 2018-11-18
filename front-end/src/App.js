@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
-import {AppHeader, AppMenu, MyTeam, TradePlayer, DraftPlayer, PlayersTeams,
-      HighestRankingUser, RemovePlayers, UpdateUsername, CreateMatch, ManageUsers} from './components';
+import {AppHeader, AppMenu, MyTeam, TradePlayer, FreeAgents, PlayersTeams,
+      HighestRankingUser, RemovePlayers, UpdateAlias, CreateMatch, ManageUsers} from './components';
 import {theme} from './ui';
 import {MuiThemeProvider, withStyles} from '@material-ui/core';
 
@@ -33,6 +33,19 @@ class App extends PureComponent {
     // TODO: handle unsuccessful attempts
   }
 
+  async dropPlayer(pid) {
+  const username = this.state.user;
+  const leaguename = this.state.currentLeague;
+   const response = await fetch('/players/drop', {
+     method: 'post',
+     headers: {
+       "Content-Type": "application/json; charset=utf-8",
+     },
+     body: JSON.stringify({ pid, username, leaguename }) /* */
+   })
+   // TODO: handle unsuccessful attempts
+ }
+
   async registerUser(username, password) {
     const response = await fetch('/users/register', {
       method: 'post',
@@ -51,9 +64,29 @@ class App extends PureComponent {
     // TODO: handle unsuccessful attempts
   }
 
+  async updatealias(alias) {
+    const username = this.state.user;
+
+    const response = await fetch('/users/updatealias', {
+      method: 'post',
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+      },
+      body: JSON.stringify({ alias, username })
+    })
+    if (response.status === 200) {
+      const data = await response.json();
+      this.setState({
+        user: data.username,
+        isCommissioner: data.isCommissioner
+      })
+    }
+    // TODO: handle unsuccessful attempts
+  }
+
   async getFreeAgents() {
     const {currentLeague} = this.state;
-    const response = await fetch('/team', {
+    const response = await fetch('/players/freeagents', {
       method: 'post',
       headers: {
         "Content-Type": "application/json; charset=utf-8",
@@ -61,10 +94,12 @@ class App extends PureComponent {
       // get players that play for username in league
       body: JSON.stringify({ currentLeague })
     })
-    const players = await response.json()
-    return players;
+    if (response.status === 200) {
+      const players = await response.json()
+      return players;
+    }
   }
-  
+
   async getTeam(username) {
     const {currentLeague} = this.state;
     const response = await fetch('/team', {
@@ -124,6 +159,21 @@ class App extends PureComponent {
     }
   }
 
+  async addPlayer(pid) {
+    const {user, currentLeague} = this.state;
+    const response = await fetch('/players/add', {
+      method: 'post',
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+      },
+      // get players that play for username in league
+      body: JSON.stringify({ pid, leaguename: currentLeague, username: user })
+    })
+    if (response.status === 200) {
+      // TODO: toast response
+    }
+  }
+
   setPage = page => {
     this.setState({ page });
   }
@@ -141,11 +191,11 @@ class App extends PureComponent {
           {page === "Manage Users" && <ManageUsers league={currentLeague} addUser={this.addUser.bind(this)} dropUser={this.dropUser.bind(this)}/>}
           {page === "My Team" && <MyTeam players={this.getTeam(user)} />}
           {page === "Trade Player" && <TradePlayer players={this.getTeam(user)}/>}
-          {page === "Draft Player" && <DraftPlayer players={this.getFreeAgents()}/>}
+          {page === "Free Agents" && <FreeAgents addPlayer={this.addPlayer.bind(this)} players={this.getFreeAgents()}/>}
           {page === "Players Teams" && <PlayersTeams players={this.getTeam(user)}/>}
           {page === "Highest Ranking User" && <HighestRankingUser username={user}/>}
-          {page === "Remove Players" && <RemovePlayers players={this.getTeam(user)} />}
-          {page === "Update Username" && <UpdateUsername/>}
+          {page === "Remove Players" && <RemovePlayers players={this.getTeam(user)} dropPlayer={this.dropPlayer.bind(this)}/>}
+          {page === "Update Alias" && <UpdateAlias updatealias={this.updatealias.bind(this)}/>}
         </MuiThemeProvider>
       </div>
     );
