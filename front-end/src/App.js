@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {AppHeader, AppMenu, MyTeam, TradePlayer, DraftPlayer, PlayersTeams,
-      HighestRankingUser, RemovePlayers, UpdateUsername, CreateNewMatch} from './components';
+      HighestRankingUser, RemovePlayers, UpdateUsername, CreateMatch} from './components';
 import {theme} from './ui';
 import {MuiThemeProvider, withStyles} from '@material-ui/core';
 
@@ -85,7 +85,7 @@ class App extends PureComponent {
 
   render() {
     const {classes} = this.props;
-    const {user, isCommissioner, leagues, page} = this.state;
+    const {user, isCommissioner, currentLeague, page} = this.state;
 
     return (
       <div className={classes.root}>
@@ -99,7 +99,7 @@ class App extends PureComponent {
           {page === "Highest Ranking User" && <HighestRankingUser username={user}/>}
           {page === "Remove Players" && <RemovePlayers players={this.getTeam(user)} />}
           {page === "Update Username" && <UpdateUsername/>}
-          {page === "Create New Match" && <CreateNewMatch/>}
+          {page === "Create Match" && <CreateMatch league={currentLeague}/>}
         </MuiThemeProvider>
       </div>
     );

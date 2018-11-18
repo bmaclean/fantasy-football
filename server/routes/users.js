@@ -22,8 +22,7 @@ router.post('/register', async function(req, res) {
   const password = req.body.password;
   // TODO we need a join to see get the user's league(s)
   const query = await manager.query('INSERT INTO users(username, passwords) VALUES (\'' + username + '\', \'' + password + '\');');
-  console.log(query);
-  res.status(200).send("Registration Successful");
+  res.status(201).send("Registration Successful");
 });
 
 module.exports = router;

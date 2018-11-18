@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import {Paper, Table, TableBody, TableCell, TableHead, TableRow, withStyles,
+import {Button, Paper, Table, TableBody, TableCell, TableHead, TableRow, withStyles,
     Divider, Drawer, List, ListItem, ListItemIcon, ListItemText} from '@material-ui/core';
 
 class TradePlayer extends PureComponent {
@@ -27,7 +27,6 @@ class TradePlayer extends PureComponent {
     render() {
         const {classes} = this.props;
         const {players} = this.state;
-        debugger;
         var x;
 
         return (
@@ -40,7 +39,6 @@ class TradePlayer extends PureComponent {
                         <TableCell>Team</TableCell>
                         <TableCell>Name</TableCell>
                         <TableCell>Position</TableCell>
-                        {/* <TableCell>Action</TableCell> */}
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -50,7 +48,6 @@ class TradePlayer extends PureComponent {
                             <TableCell><button onClick={this.playergive = player.pid}>
                               {player.firstName + ' ' + player.lastName}</button></TableCell>
                             <TableCell>{player.position}</TableCell>
-                            {/* <TableCell>*drop button*</TableCell> */}
                         </TableRow>
                     ))}
                 </TableBody>
