@@ -79,6 +79,10 @@ class App extends PureComponent {
     return players;
   }
 
+  async submitMatchup(user1, user2, year, week) {
+    console.log(user1, user2, year, week)
+  }
+
   setPage = page => {
     this.setState({ page });
   }
@@ -99,7 +103,7 @@ class App extends PureComponent {
           {page === "Highest Ranking User" && <HighestRankingUser username={user}/>}
           {page === "Remove Players" && <RemovePlayers players={this.getTeam(user)} />}
           {page === "Update Username" && <UpdateUsername/>}
-          {page === "Create Match" && <CreateMatch league={currentLeague}/>}
+          {page === "Create Match" && <CreateMatch league={currentLeague} submitMatchup={this.submitMatchup.bind(this)}/>}
         </MuiThemeProvider>
       </div>
     );
