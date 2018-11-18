@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import {AppHeader, AppMenu, MyTeam, TradePlayer, DraftPlayer, PlayersTeams,
+import {AppHeader, AppMenu, MyTeam, TradePlayer, FreeAgents, PlayersTeams,
       HighestRankingUser, RemovePlayers, UpdateUsername, CreateMatch, ManageUsers} from './components';
 import {theme} from './ui';
 import {MuiThemeProvider, withStyles} from '@material-ui/core';
@@ -53,7 +53,7 @@ class App extends PureComponent {
 
   async getFreeAgents() {
     const {currentLeague} = this.state;
-    const response = await fetch('/team', {
+    const response = await fetch('/players/freeagents', {
       method: 'post',
       headers: {
         "Content-Type": "application/json; charset=utf-8",
@@ -61,8 +61,10 @@ class App extends PureComponent {
       // get players that play for username in league
       body: JSON.stringify({ currentLeague })
     })
-    const players = await response.json()
-    return players;
+    if (response.status === 200) {
+      const players = await response.json()
+      return players;
+    }
   }
   
   async getTeam(username) {
@@ -124,6 +126,21 @@ class App extends PureComponent {
     }
   }
 
+  async addPlayer(pid) {
+    const {user, currentLeague} = this.state;
+    const response = await fetch('/players/add', {
+      method: 'post',
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+      },
+      // get players that play for username in league
+      body: JSON.stringify({ pid, leaguename: currentLeague, username: user })
+    })
+    if (response.status === 200) {
+      // TODO: toast response
+    }
+  }
+
   setPage = page => {
     this.setState({ page });
   }
@@ -141,7 +158,7 @@ class App extends PureComponent {
           {page === "Manage Users" && <ManageUsers league={currentLeague} addUser={this.addUser.bind(this)} dropUser={this.dropUser.bind(this)}/>}
           {page === "My Team" && <MyTeam players={this.getTeam(user)} />}
           {page === "Trade Player" && <TradePlayer players={this.getTeam(user)}/>}
-          {page === "Draft Player" && <DraftPlayer players={this.getFreeAgents()}/>}
+          {page === "Free Agents" && <FreeAgents addPlayer={this.addPlayer.bind(this)} players={this.getFreeAgents()}/>}
           {page === "Players Teams" && <PlayersTeams players={this.getTeam(user)}/>}
           {page === "Highest Ranking User" && <HighestRankingUser username={user}/>}
           {page === "Remove Players" && <RemovePlayers players={this.getTeam(user)} />}

@@ -3,7 +3,7 @@ export {default as AppMenu} from './AppMenu';
 export {default as LoginBox} from './LoginBox';
 export {default as MyTeam} from './MyTeam';
 export {default as TradePlayer} from './TradePlayer';
-export {default as DraftPlayer} from './DraftPlayer';
+export {default as FreeAgents} from './FreeAgents';
 export {default as PlayersTeams} from './PlayersTeams';
 export {default as HighestRankingUser} from './HighestRankingUser';
 export {default as RemovePlayers} from './RemovePlayers';
