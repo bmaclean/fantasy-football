@@ -51,7 +51,7 @@ class App extends PureComponent {
     // TODO: handle unsuccessful attempts
   }
 
-  async getTeam() {
+  async getFreeAgents() {
     const {currentLeague} = this.state;
     const response = await fetch('/team', {
       method: 'post',
@@ -80,8 +80,18 @@ class App extends PureComponent {
   }
 
   async submitMatchup(user1, user2, year, week) {
-    const {league} = this.state;
-    console.log(user1, user2, year, week)
+    const {currentLeague} = this.state;
+    const response = await fetch('/matchups/new', {
+      method: 'post',
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+      },
+      // get players that play for username in league
+      body: JSON.stringify({ user1, user2, year, week, league: currentLeague })
+    })
+    if (response.status === 200) {
+      // TODO: toast response
+    }
   }
 
   setPage = page => {
@@ -99,7 +109,7 @@ class App extends PureComponent {
           <AppHeader login={this.submitLogin.bind(this)} register={this.registerUser.bind(this)} username={user} loggedIn={!!user}/>
           {page === "My Team" && <MyTeam players={this.getTeam(user)} />}
           {page === "Trade Player" && <TradePlayer players={this.getTeam(user)}/>}
-          {page === "Draft Player" && <DraftPlayer players={this.getTeam()}/>}
+          {page === "Draft Player" && <DraftPlayer players={this.getFreeAgents()}/>}
           {page === "Players Teams" && <PlayersTeams players={this.getTeam(user)}/>}
           {page === "Highest Ranking User" && <HighestRankingUser username={user}/>}
           {page === "Remove Players" && <RemovePlayers players={this.getTeam(user)} />}
