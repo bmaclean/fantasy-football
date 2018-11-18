@@ -73,6 +73,10 @@ class AppMenu extends PureComponent {
                         <ListItemIcon><People /></ListItemIcon>
                         <ListItemText primary="Highest Ranking User" />
                       </ListItem>
+                      <ListItem button onClick={() => setPage("Remove Players")}>
+                          <ListItemIcon><People /></ListItemIcon>
+                          <ListItemText primary="Remove Players from Roster" />
+                      </ListItem>
                       </List>
                 )}
 

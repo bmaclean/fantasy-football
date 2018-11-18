@@ -33,6 +33,19 @@ class App extends PureComponent {
     // TODO: handle unsuccessful attempts
   }
 
+  async dropPlayer(pid) {
+  const username = this.state.user;
+  const leaguename = this.state.currentLeague;
+   const response = await fetch('/players/drop', {
+     method: 'post',
+     headers: {
+       "Content-Type": "application/json; charset=utf-8",
+     },
+     body: JSON.stringify({ pid, username, leaguename }) /* */
+   })
+   // TODO: handle unsuccessful attempts
+ }
+
   async registerUser(username, password) {
     const response = await fetch('/users/register', {
       method: 'post',
@@ -64,7 +77,7 @@ class App extends PureComponent {
     const players = await response.json()
     return players;
   }
-  
+
   async getTeam(username) {
     const {currentLeague} = this.state;
     const response = await fetch('/team', {
@@ -144,7 +157,7 @@ class App extends PureComponent {
           {page === "Draft Player" && <DraftPlayer players={this.getFreeAgents()}/>}
           {page === "Players Teams" && <PlayersTeams players={this.getTeam(user)}/>}
           {page === "Highest Ranking User" && <HighestRankingUser username={user}/>}
-          {page === "Remove Players" && <RemovePlayers players={this.getTeam(user)} />}
+          {page === "Remove Players" && <RemovePlayers players={this.getTeam(user)} dropPlayer={this.dropPlayer.bind(this)}/>}
           {page === "Update Username" && <UpdateUsername/>}
         </MuiThemeProvider>
       </div>
