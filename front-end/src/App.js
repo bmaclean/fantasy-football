@@ -108,10 +108,12 @@ class App extends PureComponent {
         "Content-Type": "application/json; charset=utf-8",
       },
       // get players that play for username in league
-      body: JSON.stringify({ username, currentLeague })
+      body: JSON.stringify({ username, league: currentLeague })
     })
-    const players = await response.json()
-    return players;
+    if (response.status === 200) {
+      const players = await response.json()
+      return players;
+    }
   }
 
   async submitMatchup(user1, user2, year, week) {
