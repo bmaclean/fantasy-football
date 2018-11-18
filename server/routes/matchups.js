@@ -31,7 +31,7 @@ router.post('/', async function(req, res, next) {
 // TODO: need all GameWeeks inserted (FK constraint)
 router.post('/new', async function(req, res) {
   const {user1, user2, year, week, league} = req.body;
-  // TODO: integer constraint
+  // TODO: integer constraint in DB
   const gameID = generateFantasyGameID(user1 + user2 + year + week + league);
   const gameWeek = year + 'W' + week;
   // TODO: NaN
