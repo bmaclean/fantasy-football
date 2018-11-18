@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {AppHeader, AppMenu, MyTeam, TradePlayer, DraftPlayer, PlayersTeams,
-      HighestRankingUser, RemovePlayers, UpdateUsername, CreateMatch, ManageUsers} from './components';
+      HighestRankingUser, RemovePlayers, UpdateAlias, CreateMatch, ManageUsers} from './components';
 import {theme} from './ui';
 import {MuiThemeProvider, withStyles} from '@material-ui/core';
 
@@ -53,6 +53,26 @@ class App extends PureComponent {
         "Content-Type": "application/json; charset=utf-8",
       },
       body: JSON.stringify({ username, password })
+    })
+    if (response.status === 200) {
+      const data = await response.json();
+      this.setState({
+        user: data.username,
+        isCommissioner: data.isCommissioner
+      })
+    }
+    // TODO: handle unsuccessful attempts
+  }
+
+  async updatealias(alias) {
+    const username = this.state.user;
+
+    const response = await fetch('/users/updatealias', {
+      method: 'post',
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+      },
+      body: JSON.stringify({ alias, username })
     })
     if (response.status === 200) {
       const data = await response.json();
@@ -158,7 +178,7 @@ class App extends PureComponent {
           {page === "Players Teams" && <PlayersTeams players={this.getTeam(user)}/>}
           {page === "Highest Ranking User" && <HighestRankingUser username={user}/>}
           {page === "Remove Players" && <RemovePlayers players={this.getTeam(user)} dropPlayer={this.dropPlayer.bind(this)}/>}
-          {page === "Update Username" && <UpdateUsername/>}
+          {page === "Update Alias" && <UpdateAlias updatealias={this.updatealias.bind(this)}/>}
         </MuiThemeProvider>
       </div>
     );
