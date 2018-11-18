@@ -4,18 +4,27 @@ import {Paper, Table, TableBody, TableCell, TableHead, TableRow, withStyles} fro
 class MyTeam extends PureComponent {
     state = {
         players: [],
-        d: null
+        pid: null
     }
 
     componentDidMount() {
         this.props.players.then(players => this.setState({ players }))
     }
 
-    handleClick(){
-      if(this.d){
-        /* TODO: remove PID from table */
-      }
+    handleRemove(){
+       if(this.state.pid != null){
+         const {dropPlayer} = this.props;
+         const {pid} = this.state;
+         dropPlayer(pid);
+        }
+       debugger;
+     }
+
+     selectplayer(event) {
+      this.setState({pid: event.target.value});
+      debugger;
     }
+
 
     render() {
         const {classes} = this.props;
@@ -25,7 +34,7 @@ class MyTeam extends PureComponent {
         return (
             <Paper className={classes.teamTable}>
             <h className={classes.textShift}> Select Player to remove </h>
-             <button onClick={this.handleClick()}> Remove </button>
+             <button onClick={this.handleRemove.bind(this)}> Remove </button>
                 <Table>
                     <TableHead>
                         <TableRow>
@@ -39,7 +48,7 @@ class MyTeam extends PureComponent {
                         {players.map(player => (
                             <TableRow key={player.pid}>
                                 <TableCell>{player.team}</TableCell>
-                                  <TableCell><button onClick={this.d = player.pid}>
+                                  <TableCell><button onClick={this.selectplayer.bind(this)} value={player.pid}>
                                   {player.firstName + ' ' + player.lastName}</button></TableCell>
                                 <TableCell>{player.position}</TableCell>
                                 {/* <TableCell>*drop button*</TableCell> */}

@@ -35,10 +35,10 @@ class AppMenu extends PureComponent {
                                 <ListItemIcon><Gavel /></ListItemIcon>
                                 <ListItemText primary="Manage Users" />
                             </ListItem>
-                            {/* <ListItem button onClick={() => setPage("Update Username")}>
+                            { <ListItem button onClick={() => setPage("Update Alias")}>
                                 <ListItemIcon><People /></ListItemIcon>
-                                <ListItemText primary="Update Username" />
-                            </ListItem> */}
+                                <ListItemText primary="Update My Alias" />
+                            </ListItem>}
                             <ListItem button onClick={() => setPage("Create Match")}>
                                 <ListItemIcon><Shuffle /></ListItemIcon>
                                 <ListItemText primary="Create Match" />
@@ -73,6 +73,10 @@ class AppMenu extends PureComponent {
                       <ListItem button onClick={() => setPage("Highest Ranking User")}>
                         <ListItemIcon><People /></ListItemIcon>
                         <ListItemText primary="Highest Ranking User" />
+                      </ListItem>
+                      <ListItem button onClick={() => setPage("Remove Players")}>
+                          <ListItemIcon><People /></ListItemIcon>
+                          <ListItemText primary="Remove Players from Roster" />
                       </ListItem>
                       </List>
                 )}

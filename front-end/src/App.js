@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {AppHeader, AppMenu, MyTeam, TradePlayer, FreeAgents, PlayersTeams,
-      HighestRankingUser, RemovePlayers, UpdateUsername, CreateMatch, ManageUsers} from './components';
+      HighestRankingUser, RemovePlayers, UpdateAlias, CreateMatch, ManageUsers} from './components';
 import {theme} from './ui';
 import {MuiThemeProvider, withStyles} from '@material-ui/core';
 
@@ -33,6 +33,19 @@ class App extends PureComponent {
     // TODO: handle unsuccessful attempts
   }
 
+  async dropPlayer(pid) {
+  const username = this.state.user;
+  const leaguename = this.state.currentLeague;
+   const response = await fetch('/players/drop', {
+     method: 'post',
+     headers: {
+       "Content-Type": "application/json; charset=utf-8",
+     },
+     body: JSON.stringify({ pid, username, leaguename }) /* */
+   })
+   // TODO: handle unsuccessful attempts
+ }
+
   async registerUser(username, password) {
     const response = await fetch('/users/register', {
       method: 'post',
@@ -40,6 +53,26 @@ class App extends PureComponent {
         "Content-Type": "application/json; charset=utf-8",
       },
       body: JSON.stringify({ username, password })
+    })
+    if (response.status === 200) {
+      const data = await response.json();
+      this.setState({
+        user: data.username,
+        isCommissioner: data.isCommissioner
+      })
+    }
+    // TODO: handle unsuccessful attempts
+  }
+
+  async updatealias(alias) {
+    const username = this.state.user;
+
+    const response = await fetch('/users/updatealias', {
+      method: 'post',
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+      },
+      body: JSON.stringify({ alias, username })
     })
     if (response.status === 200) {
       const data = await response.json();
@@ -66,7 +99,7 @@ class App extends PureComponent {
       return players;
     }
   }
-  
+
   async getTeam(username) {
     const {currentLeague} = this.state;
     const response = await fetch('/team', {
@@ -161,8 +194,8 @@ class App extends PureComponent {
           {page === "Free Agents" && <FreeAgents addPlayer={this.addPlayer.bind(this)} players={this.getFreeAgents()}/>}
           {page === "Players Teams" && <PlayersTeams players={this.getTeam(user)}/>}
           {page === "Highest Ranking User" && <HighestRankingUser username={user}/>}
-          {page === "Remove Players" && <RemovePlayers players={this.getTeam(user)} />}
-          {page === "Update Username" && <UpdateUsername/>}
+          {page === "Remove Players" && <RemovePlayers players={this.getTeam(user)} dropPlayer={this.dropPlayer.bind(this)}/>}
+          {page === "Update Alias" && <UpdateAlias updatealias={this.updatealias.bind(this)}/>}
         </MuiThemeProvider>
       </div>
     );

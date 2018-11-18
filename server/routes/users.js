@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const manager = require('../src/db-manager.js');
+const CHANGE_ALIAS = 'UPDATE commissioner SET alias = $1 WHERE commissioner_username = $2';
 
 /* POST user login. */
 router.post('/login', async function(req, res) {
@@ -18,11 +19,23 @@ router.post('/login', async function(req, res) {
 });
 
 router.post('/register', async function(req, res) {
-  const username = req.body.username; 
+  const username = req.body.username;
   const password = req.body.password;
   // TODO we need a join to see get the user's league(s)
   const query = await manager.query('INSERT INTO users(username, passwords) VALUES (\'' + username + '\', \'' + password + '\');');
   res.status(201).send("Registration Successful");
+});
+
+router.post('/updatealias', async function(req, res) {
+
+  let alias = req.body.alias;
+  let username = req.body.username;
+  let params = [alias, username];
+  console.log(`${username}${alias}`);
+
+  const query = await manager.query(CHANGE_ALIAS, params);
+  // TODO: handle exceptions (if user is not commissioner?)
+  res.status(201).send(`Successfully changed Alias ${JSON.stringify(params)}`);
 });
 
 module.exports = router;
