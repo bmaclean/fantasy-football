@@ -24,14 +24,16 @@ class Manager {
     return runQuery(`DROP TABLE ${name}`);
   }
 
+  deleteAllTableRows(table) {
+    return runQuery(`DELETE FROM ${table}`);
+  }
+
   query(str, values) {
-    // STUB
     return runQuery(str, values);
   }
 
-  insert(str) {
-    // STUB
-    // inserts row into table
+  insertRow(table, valuesTemplate, values) {
+    return runQuery(`INSERT INTO ${table} VALUES(${valuesTemplate})`, values);
   }
 
   closeConnection() {
