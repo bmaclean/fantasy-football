@@ -149,6 +149,22 @@ class App extends PureComponent {
     }
   }
 
+  async getTeamDetails(username) {
+    const {currentLeague} = this.state;
+    const response = await fetch('/team/details', {
+      method: 'post',
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+      },
+      // get players that play for username in league
+      body: JSON.stringify({ username, league: currentLeague })
+    })
+    if (response.status === 200) {
+      const players = await response.json()
+      return players;
+    }
+  }
+
   async submitMatchup(user1, user2, year, week) {
     const {currentLeague} = this.state;
     const response = await fetch('/matchups/new', {
@@ -260,7 +276,7 @@ class App extends PureComponent {
           {page === "My Team" && <MyTeam dropPlayer={this.dropPlayer.bind(this)} players={this.getTeam(user)} />}
           {page === "Trade Player" && <TradePlayer user={user} trade={this.trade.bind(this)} league={currentLeague} players={this.getTeam(user)} getTeam={this.getTeam.bind(this)}/>}
           {page === "Free Agents" && <FreeAgents addPlayer={this.addPlayer.bind(this)} players={this.getFreeAgents()}/>}
-          {page === "Players Teams" && <PlayersTeams players={this.getTeam(user)}/>}
+          {page === "Players Teams" && <PlayersTeams players={this.getTeamDetails(user)}/>}
           {page === "View Matchup" && <ViewMatchup league={currentLeague} getMatchup={this.getMatchup.bind(this)}/>}
           {page === "Highest Ranking User" && <HighestRankingUser users={this.getLeaderboard()}/>}
           {page === "Top Scores By Week" && <ScoresByWeek scores={this.getScoresByWeek()}/>}
