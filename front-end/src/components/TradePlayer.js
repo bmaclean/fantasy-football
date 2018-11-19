@@ -38,7 +38,7 @@ class TradePlayer extends PureComponent {
 
     async updateOtherTeam(username) {
         const {getTeam, user} = this.props;
-        console.log(username)
+        
         const newTeam = await getTeam(username);
         return newTeam;
     }
@@ -63,7 +63,7 @@ class TradePlayer extends PureComponent {
         const otherPlayers = otherTeam || [];
         const playerList = players || [];
 
-        console.log(playerList, otherPlayers)
+        
 
         return (
           <>

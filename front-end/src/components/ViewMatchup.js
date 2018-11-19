@@ -53,7 +53,7 @@ class ViewMatchup extends PureComponent {
         const {getMatchup} = this.props;
         const {user1, user2, year, week} = this.state;
         const result = await getMatchup(user1, user2, year, week);
-        console.log(result);
+        
         this.setState({ matchups: result })
     }
 

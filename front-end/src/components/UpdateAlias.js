@@ -9,7 +9,7 @@ class MyTeam extends PureComponent {
   updateAlias() {
       const {updatealias} = this.props;
       const {alias} = this.state;
-      console.log(`alias: ${alias}`);
+      
       debugger;
       updatealias(alias);
   }
