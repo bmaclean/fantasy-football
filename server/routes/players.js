@@ -58,6 +58,7 @@ router.post('/drop', async function(req, res, next) {
 
 router.post('/freeagents', async function(req, res, next) {
   const {league} = req.body;
+  console.log(league)
   const createFAView = await manager.query(`CREATE VIEW FreeAgents AS SELECT * FROM player P WHERE P.pid NOT IN (SELECT pid FROM PlaysFor WHERE leaguename = \'${league}\');`);
   const FAQuery = await manager.query(FREE_AGENT_QUERY);
   const dropFAView = await manager.query(DROP_FREE_AGENT_VIEW);

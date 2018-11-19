@@ -1,13 +1,13 @@
 import React, { PureComponent } from 'react';
 import {Divider, Drawer, List, ListItem, ListItemIcon, ListItemText, withStyles} from '@material-ui/core';
 import {AccountCircle, BarChart, GroupAdd, Gavel, Notes, SupervisedUserCircle,
-        SwapHoriz, People, Shuffle, ArrowUpward, PermIdentity} from '@material-ui/icons'
+        SwapHoriz, People, Shuffle, ArrowUpward, PermIdentity, FolderShared} from '@material-ui/icons'
 
 
 class AppMenu extends PureComponent {
     
     render() {
-        const {classes, isCommissioner, username, setPage} = this.props;
+        const {classes, isCommissioner, username, setPage, leagues, alias} = this.props;
 
         return (
             <Drawer
@@ -25,6 +25,10 @@ class AppMenu extends PureComponent {
                     </ListItem>
                     {isCommissioner && (
                         <>
+                            <ListItem>
+                                <ListItemIcon><FolderShared /></ListItemIcon>
+                                <ListItemText primary={alias} />
+                            </ListItem>
                             <ListItem>
                                 <ListItemText primary="Commissioner Settings" />
                             </ListItem>
@@ -45,7 +49,7 @@ class AppMenu extends PureComponent {
                 </List>
                 )}
                 <Divider />
-                {username && (
+                {username && !!leagues.length && (
                   <List>
                       <ListItem>
                           <ListItemText primary="League Options" />
@@ -78,10 +82,6 @@ class AppMenu extends PureComponent {
                       <ListItem button onClick={() => setPage("Top Scores By Week")}>
                         <ListItemIcon><ArrowUpward /></ListItemIcon>
                         <ListItemText primary="Top Scores By Week" />
-                      </ListItem>
-                      <ListItem button onClick={() => setPage("Remove Players")}>
-                          <ListItemIcon><People /></ListItemIcon>
-                          <ListItemText primary="Remove Players from Roster" />
                       </ListItem>
                       </List>
                 )}

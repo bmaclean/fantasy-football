@@ -3,7 +3,7 @@ import {AppHeader, AppMenu, MyTeam, TradePlayer, FreeAgents, PlayersTeams,
       HighestRankingUser, RemovePlayers, UpdateAlias, CreateMatch, ManageUsers,
       ViewMatchup, ScoresByWeek} from './components';
 import {theme} from './ui';
-import {MuiThemeProvider, withStyles} from '@material-ui/core';
+import {MuiThemeProvider, Snackbar, withStyles} from '@material-ui/core';
 
 class App extends PureComponent {
   state = {
@@ -11,7 +11,10 @@ class App extends PureComponent {
     leagues: null,
     currentLeague: null,
     isCommissioner: null,
-    page: "Home"
+    commissionerAlias: "",
+    page: "Home",
+    showSnackbar: false,
+    snackbarMessage: '',
   };
 
   async submitLogin(username, password) {
@@ -28,7 +31,13 @@ class App extends PureComponent {
         user: data.username,
         leagues: data.userLeagues,
         currentLeague: data.userLeagues[0],
-        isCommissioner: data.isCommissioner
+        isCommissioner: data.isCommissioner,
+        commissionerAlias: data.alias
+      })
+    } else {
+      this.setState({
+        showSnackbar: true,
+        snackbarMessage: "That username or password does not exist."
       })
     }
     // TODO: handle unsuccessful attempts
@@ -55,11 +64,10 @@ class App extends PureComponent {
       },
       body: JSON.stringify({ username, password })
     })
-    if (response.status === 200) {
-      const data = await response.json();
+    if (response.status === 201) {
       this.setState({
-        user: data.username,
-        isCommissioner: data.isCommissioner
+        showSnackbar: true,
+        snackbarMessage: "Registration successful!"
       })
     }
     // TODO: handle unsuccessful attempts
@@ -75,11 +83,11 @@ class App extends PureComponent {
       },
       body: JSON.stringify({ alias, username })
     })
-    if (response.status === 200) {
-      const data = await response.json();
+    if (response.status === 201) {
       this.setState({
-        user: data.username,
-        isCommissioner: data.isCommissioner
+        showSnackbar: true,
+        snackbarMessage: 'Alias successfully updated!',
+        commissionerAlias: alias
       })
     }
     // TODO: handle unsuccessful attempts
@@ -93,7 +101,7 @@ class App extends PureComponent {
         "Content-Type": "application/json; charset=utf-8",
       },
       // get players that play for username in league
-      body: JSON.stringify({ currentLeague })
+      body: JSON.stringify({ league: currentLeague })
     })
     if (response.status === 200) {
       const players = await response.json()
@@ -207,7 +215,15 @@ class App extends PureComponent {
       body: JSON.stringify({ username, league })
     })
     if (response.status === 200) {
-      // TODO: toast response
+      this.setState({
+        showSnackbar: true,
+        snackbarMessage: 'User successfully added!',
+      })
+    } else {
+      this.setState({
+        showSnackbar: true,
+        snackbarMessage: 'This user cannot be added.',
+      })
     }
   }
 
@@ -223,7 +239,15 @@ class App extends PureComponent {
       body: JSON.stringify({ username, league })
     })
     if (response.status === 200) {
-      // TODO: toast response
+      this.setState({
+        showSnackbar: true,
+        snackbarMessage: 'User successfully dropped!',
+      })
+    } else {
+      this.setState({
+        showSnackbar: true,
+        snackbarMessage: 'This user cannot be dropped.',
+      })
     }
   }
 
@@ -264,12 +288,12 @@ class App extends PureComponent {
 
   render() {
     const {classes} = this.props;
-    const {user, isCommissioner, currentLeague, page} = this.state;
+    const {user, isCommissioner, currentLeague, page, showSnackbar, snackbarMessage, leagues, commissionerAlias} = this.state;
 
     return (
       <div className={classes.root}>
         <MuiThemeProvider theme={theme}>
-          <AppMenu username={user} isCommissioner={isCommissioner} setPage={this.setPage.bind(this)}/>
+          <AppMenu leagues={leagues} username={user} isCommissioner={isCommissioner} setPage={this.setPage.bind(this)} alias={commissionerAlias}/>
           <AppHeader login={this.submitLogin.bind(this)} register={this.registerUser.bind(this)} username={user} loggedIn={!!user}/>
           {page === "Create Match" && <CreateMatch league={currentLeague} submitMatchup={this.submitMatchup.bind(this)}/>}
           {page === "Manage Users" && <ManageUsers league={currentLeague} addUser={this.addUser.bind(this)} dropUser={this.dropUser.bind(this)}/>}
@@ -280,8 +304,17 @@ class App extends PureComponent {
           {page === "View Matchup" && <ViewMatchup league={currentLeague} getMatchup={this.getMatchup.bind(this)}/>}
           {page === "Highest Ranking User" && <HighestRankingUser users={this.getLeaderboard()}/>}
           {page === "Top Scores By Week" && <ScoresByWeek scores={this.getScoresByWeek()}/>}
-          {page === "Remove Players" && <RemovePlayers players={this.getTeam(user)} dropPlayer={this.dropPlayer.bind(this)}/>}
           {page === "Update Alias" && <UpdateAlias updatealias={this.updatealias.bind(this)}/>}
+          <Snackbar
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            open={showSnackbar}
+            onClose={() => {this.setState({showSnackbar: false})}}
+            autoHideDuration={2000}
+            message={<span id="message-id">{snackbarMessage}</span>}
+          />
         </MuiThemeProvider>
       </div>
     );
