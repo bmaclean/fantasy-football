@@ -17,12 +17,12 @@ class MyTeam extends PureComponent {
          const {pid} = this.state;
          dropPlayer(pid);
         }
-       debugger;
+       
      }
 
      selectplayer(event) {
       this.setState({pid: event.target.value});
-      debugger;
+      
     }
 
 

@@ -6,6 +6,18 @@ const DROP_QUERY = 'DELETE FROM playsfor WHERE pid = $1 AND username = $2 AND le
 const ADD_QUERY = 'INSERT INTO playsfor VALUES($1, $2, $3)';
 const ROSTER_SIZE_QUERY = 'SELECT rostersize FROM fantasyleague WHERE leaguename = $1';
 const NUM_PLAYERS_IN_ROSTER_QUERY = 'SELECT COUNT(*) FROM playsfor WHERE username = $1 AND leaguename = $2';
+const MVP_QUERY =  `SELECT P.pid
+                    FROM Player P
+                    WHERE NOT EXISTS (
+                      SELECT PI.username
+                      FROM PlaysIn PI
+                      WHERE PI.leaguename=$1
+                      EXCEPT (
+                        SELECT username
+                        FROM PlaysFor PF
+                        WHERE PF.pid = P.pid AND PF.leaguename = $1
+                      )
+                    )`;
 const CREATE_FREE_AGENT_VIEW = '';
 const DROP_FREE_AGENT_VIEW = 'DROP VIEW FreeAgents';
 const FREE_AGENT_QUERY = 'SELECT * FROM FreeAgents';
@@ -53,6 +65,20 @@ router.post('/drop', async function(req, res, next) {
     res.status(201).send(`Successfully dropped row ${JSON.stringify(params)}`);
   } else {
     res.status(400).send(`Could not find row matching ${JSON.stringify(params)}`);
+  }
+});
+
+// MVP returns any player that plays for every team in a given league
+router.post('/mvp', async function(req, res, next) {
+  const {league} = req.body;
+  const result = await manager.query(MVP_QUERY, [league]);
+  console.log(result)
+  const mvp = result.rows.map(pid => pid);
+  console.log(1)
+  if (result.rowCount > 0) {
+    res.json(mvp);
+  } else {
+    res.status(204).send(`No MVP`);
   }
 });
 

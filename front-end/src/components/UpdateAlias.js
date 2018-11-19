@@ -10,7 +10,7 @@ class MyTeam extends PureComponent {
       const {updatealias} = this.props;
       const {alias} = this.state;
       
-      debugger;
+      
       updatealias(alias);
   }
 
@@ -23,7 +23,7 @@ class MyTeam extends PureComponent {
     render() {
         const {classes} = this.props;
         const {alias} = this.state;
-        debugger;
+        
 
         return (
             <Paper className={classes.teamTable}>

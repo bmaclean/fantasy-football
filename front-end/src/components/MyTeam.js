@@ -3,11 +3,30 @@ import {Button, Paper, Table, TableBody, TableCell, TableHead, TableRow, withSty
 
 class MyTeam extends PureComponent {
     state = {
-        players: []
+        players: [],
+        mvps: []
     }
     
     componentDidMount() {
         this.props.players.then(players => this.setState({ players }))
+        this.checkMVP();
+    }
+
+    async checkMVP() {
+        const {league} = this.props;
+        const response = await fetch('/players/mvp', {
+            method: 'post',
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+            },
+            body: JSON.stringify({ league })
+        })
+        if (response.status === 200) {
+            const data = await response.json();
+            this.setState({
+                mvps: data.map(player => player.pid)
+            })
+        }
     }
 
     remove(pid) {
@@ -18,7 +37,7 @@ class MyTeam extends PureComponent {
 
     render() {
         const {classes, dropPlayer} = this.props;
-        const {players} = this.state;
+        const {players, mvps} = this.state;
         
         const playerList = players || [];
 
@@ -35,7 +54,7 @@ class MyTeam extends PureComponent {
                     </TableHead>
                     <TableBody>
                         {playerList.map(player => (
-                            <TableRow key={player.pid}>
+                            <TableRow key={player.pid} className={mvps.includes(player.pid) ? classes.mvp : ''}>
                                 <TableCell>{player.team}</TableCell>
                                 <TableCell>{player.firstName + ' ' + player.lastName}</TableCell>
                                 <TableCell>{player.position || 'FA'}</TableCell>
@@ -62,6 +81,9 @@ const styles = {
         marginLeft: 400,
         width: 700,
         elevation: 2
+    },
+    mvp: {
+        backgroundColor: '#E3F2FD'
     }
 }
 export default withStyles(styles)(MyTeam);
