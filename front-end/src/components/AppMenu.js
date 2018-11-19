@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import {Divider, Drawer, List, ListItem, ListItemIcon, ListItemText, withStyles} from '@material-ui/core';
-import {AccountCircle, BarChart, GroupAdd, Gavel, Notes, People, Shuffle, ArrowUpward, PermIdentity} from '@material-ui/icons'
+import {AccountCircle, BarChart, GroupAdd, Gavel, Notes, SupervisedUserCircle,
+        People, Shuffle, ArrowUpward, PermIdentity} from '@material-ui/icons'
 
 
 class AppMenu extends PureComponent {
@@ -69,6 +70,10 @@ class AppMenu extends PureComponent {
                       <ListItem button onClick={() => setPage("Players Teams")}>
                           <ListItemIcon><People /></ListItemIcon>
                           <ListItemText primary="My Players' Teams" />
+                      </ListItem>
+                      <ListItem button onClick={() => setPage("View Matchup")}>
+                        <ListItemIcon><SupervisedUserCircle /></ListItemIcon>
+                        <ListItemText primary="View Matchup" />
                       </ListItem>
                       <ListItem button onClick={() => setPage("Highest Ranking User")}>
                         <ListItemIcon><PermIdentity /></ListItemIcon>

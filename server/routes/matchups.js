@@ -10,6 +10,10 @@ const USER_GAMEWEEK_STATS_QUERY = ' SELECT SUM(touchdowns) as TD, SUM(yards) as 
 const INSERT_NEW_MATCHUP_QUERY = 'INSERT INTO fantasygame(fantasygameid, user1, user2,' +
   'gameweek, user1score, user2score, leaguename) VALUES ($1, $2, $3, $4, $5, $6, $7)';
 
+const GET_MATCHUP_FROM_WEEK = 'SELECT user1, user1score, user2, user2score FROM fantasygame FG, gameweek G ' +
+  'WHERE FG.leaguename = $1 AND (user1 = $2 OR user2 = $2) AND (user2 = $3 OR user1 = $3) AND FG.gameweek = G.weekid ' +
+  'AND G.gameyear = $4 AND G.gameweek = $5';
+
 const getUserScoreForWeek = async (username, leaguename, gameweek) => {
   const result = await manager.query(USER_GAMEWEEK_STATS_QUERY, [username, leaguename, gameweek]);
   const values = [result.rows[0].td, result.rows[0].y, result.rows[0].c];
@@ -17,15 +21,16 @@ const getUserScoreForWeek = async (username, leaguename, gameweek) => {
 }
 
 router.post('/', async function(req, res, next) {
-  const user1 = req.body.username1;
-  const user2 = req.body.username2;
+  const user1 = req.body.user1;
+  const user2 = req.body.user2;
   const leaguename = req.body.leaguename;
+  const gameyear = req.body.gameyear;
   const gameweek = req.body.gameweek;
 
-  const user1score = await getUserScoreForWeek(user1, leaguename, gameweek);
-  const user2score = await getUserScoreForWeek(user2, leaguename, gameweek);
+  const result = await manager.query(GET_MATCHUP_FROM_WEEK, [leaguename, user1, user2, gameyear, gameweek]);
+  console.log(result);
 
-  res.status(200).send({ user1score, user2score });
+  res.status(200).send(result.rows);
 });
 
 // TODO: need all GameWeeks inserted (FK constraint)

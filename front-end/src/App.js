@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import {AppHeader, AppMenu, MyTeam, TradePlayer, FreeAgents, PlayersTeams,
-      HighestRankingUser, RemovePlayers, UpdateAlias, CreateMatch, ManageUsers, ScoresByWeek} from './components';
+      HighestRankingUser, RemovePlayers, UpdateAlias, CreateMatch, ManageUsers,
+      ViewMatchup, ScoresByWeek} from './components';
 import {theme} from './ui';
 import {MuiThemeProvider, withStyles} from '@material-ui/core';
 
@@ -163,6 +164,23 @@ class App extends PureComponent {
     }
   }
 
+  async getMatchup(user1, user2, gameyear, gameweek) {
+    const {currentLeague} = this.state;
+    const response = await fetch('/matchups', {
+      method: 'post',
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+      },
+      // get players that play for username in league
+      body: JSON.stringify({ user1, user2, gameyear, gameweek, leaguename: currentLeague })
+    })
+    if (response.status === 200) {
+      return await response.json();
+    } else  {
+      return [];
+    }
+  }
+
   async addUser(username, league) {
     const response = await fetch('/league/users/add', {
       method: 'post',
@@ -227,6 +245,7 @@ class App extends PureComponent {
           {page === "Trade Player" && <TradePlayer players={this.getTeam(user)}/>}
           {page === "Free Agents" && <FreeAgents addPlayer={this.addPlayer.bind(this)} players={this.getFreeAgents()}/>}
           {page === "Players Teams" && <PlayersTeams players={this.getTeam(user)}/>}
+          {page === "View Matchup" && <ViewMatchup league={currentLeague} getMatchup={this.getMatchup.bind(this)}/>}
           {page === "Highest Ranking User" && <HighestRankingUser users={this.getLeaderboard()}/>}
           {page === "Top Scores By Week" && <ScoresByWeek scores={this.getScoresByWeek()}/>}
           {page === "Remove Players" && <RemovePlayers players={this.getTeam(user)} dropPlayer={this.dropPlayer.bind(this)}/>}
