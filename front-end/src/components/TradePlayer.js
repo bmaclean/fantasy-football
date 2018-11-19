@@ -1,38 +1,66 @@
 import React, { PureComponent } from 'react';
-import {Button, Paper, Table, TableBody, TableCell, TableHead, TableRow, withStyles,
-    Divider, Drawer, List, ListItem, ListItemIcon, ListItemText} from '@material-ui/core';
+import {LeagueUsers} from '../components';
+import {Button, Paper, Table, TableBody, TableCell, TableHead, TableRow, withStyles, IconButton} from '@material-ui/core';
+import {SwapHoriz} from '@material-ui/icons'
 
 class TradePlayer extends PureComponent {
 
     state = {
+        anchorEl: null,
+        menuOpen: false,
         players: [],
         user: null,
-        playergive: null,
-        playerget: null
+        otherUser: null,
+        otherTeam: null,
+        playerSending: null,
+        playerReceiving: null
     }
 
     componentDidMount() {
         this.props.players.then(players => this.setState({ players }))
     }
+
+    openMenu(event) {
+        this.setState({ anchorEl: event.currentTarget, menuOpen: true })
+    };
+
+    closeMenu() {
+        this.setState({ anchorEl: null, menuOpen: false })
+    };
+
     handleGive(){
-      if(this.playergive){
-        /* TODO: remove PID from table, add to other */
-      }
+        
     }
+
     handleGet(){
-      if(this.playerget){
-        /* TODO: add PID from table, remove from other */
-      }
+        
     }
+
+    async select(state, name) {
+        this.setState({ [state]: name });
+        if (state === 'otherUser') {
+            const newTeam = await this.updateOtherTeam(name);
+            this.select('otherTeam', newTeam);
+        }
+    }; 
+
+    async updateOtherTeam(username) {
+        const {getTeam, user} = this.props;
+        console.log(username)
+        const newTeam = await getTeam(username);
+        return newTeam;
+    }
+
     render() {
-        const {classes} = this.props;
-        const {players} = this.state;
-        var x;
+        const {classes, league, trade, user} = this.props;
+        const {anchorEl, menuOpen, players, otherUser, otherTeam, playerSending, playerReceiving} = this.state;
+
+        const otherPlayers = otherTeam || [];
+        const playerList = players || [];
 
         return (
           <>
           <Paper className={classes.tradeBox}>
-            <p className={classes.textShift}>Select your player to trade</p>
             <Table>
                 <TableHead>
                     <TableRow>
@@ -42,24 +70,40 @@ class TradePlayer extends PureComponent {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {players.map(player => (
-                        <TableRow key={player.pid}>
+                    {playerList.map(player => (
+                        <TableRow 
+                            key={player.pid} 
+                            selected={playerSending === player.pid}
+                            onClick={() => {this.select('playerSending', player.pid)}}>
                             <TableCell>{player.team}</TableCell>
-                            <TableCell><button onClick={this.playergive = player.pid}>
-                              {player.firstName + ' ' + player.lastName}</button></TableCell>
+                            <TableCell>{player.firstName + ' ' + player.lastName}</TableCell>
                             <TableCell>{player.position}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
             </Table>
           </Paper>
-          <Paper className={classes.tradeButton}>
-          <button onclick="myFunction()">Trade</button>
-          </Paper>
+          <IconButton 
+            className={classes.tradeButton}
+            disabled={!playerSending || !playerReceiving}
+            onClick={() => trade(user, otherUser, playerSending, playerReceiving)}>
+                <SwapHoriz/>
+          </IconButton>
+          <Button
+            className={classes.userMenu}
+            onClick={this.openMenu.bind(this)}
+            color='primary'
+            variant='contained'
+            id="otherUser">
+            {otherUser || "Select User"}
+          </Button>
+          <LeagueUsers 
+            league={league} 
+            open={menuOpen} 
+            anchorEl={anchorEl} 
+            close={this.closeMenu.bind(this)} 
+            select={this.select.bind(this)}/>
           <Paper className={classes.tradeTwo}>
-            <p className={classes.textShift}>Select player to recieve and user to trade with</p>
-              <input className={classes.textShift} type="text" id="myText" value={this.state.value}
-                onChange={this.handleChange}/>
             <Table>
                 <TableHead>
                     <TableRow>
@@ -70,11 +114,13 @@ class TradePlayer extends PureComponent {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {players.map(player => (
-                        <TableRow key={player.pid}>
+                    {otherPlayers.map(player => (
+                        <TableRow 
+                            key={player.pid} 
+                            selected={playerReceiving === player.pid}
+                            onClick={() => {this.select('playerReceiving', player.pid)}}>
                             <TableCell>{player.team}</TableCell>
-                            <TableCell><button onClick={this.playerget = player.pid}>
-                              {player.firstName + ' ' + player.lastName}</button></TableCell>
+                            <TableCell>{player.firstName + ' ' + player.lastName}</TableCell>
                             <TableCell>{player.position}</TableCell>
                             {/* <TableCell>*drop button*</TableCell> */}
                         </TableRow>
@@ -86,30 +132,31 @@ class TradePlayer extends PureComponent {
         )
     }
 }
-function myFunction() {
-    var x = document.getElementById("myText").value;
-    document.getElementById("demo").innerHTML = x;
-}
 
 const styles = {
+    userMenu: {
+        position: "absolute",
+        marginTop: 85,
+        marginLeft: 1000
+    },
     tradeBox: {
         position: "absolute",
         marginTop: 130,
         marginLeft: 300,
-        width: 400,
+        width: 500,
         elevation: 2
     },
     tradeTwo: {
         position: "absolute",
         marginTop: 130,
-        marginLeft: 750,
-        width: 400,
+        marginLeft: 1000,
+        width: 500,
         elevation: 2
     },
     tradeButton: {
         position: "absolute",
         marginTop: 300,
-        marginLeft: 700,
+        marginLeft: 875,
         width: 50,
         elevation: 2
     },

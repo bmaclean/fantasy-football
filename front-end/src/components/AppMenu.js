@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import {Divider, Drawer, List, ListItem, ListItemIcon, ListItemText, withStyles} from '@material-ui/core';
 import {AccountCircle, BarChart, GroupAdd, Gavel, Notes, SupervisedUserCircle,
-        People, Shuffle, ArrowUpward, PermIdentity} from '@material-ui/icons'
+        SwapHoriz, People, Shuffle, ArrowUpward, PermIdentity} from '@material-ui/icons'
 
 
 class AppMenu extends PureComponent {
@@ -63,7 +63,7 @@ class AppMenu extends PureComponent {
                           <ListItemText primary="Free Agents" />
                       </ListItem>
                       <ListItem button onClick={() => setPage("Trade Player")}>
-                          <ListItemIcon><BarChart /></ListItemIcon>
+                          <ListItemIcon><SwapHoriz /></ListItemIcon>
                           <ListItemText primary="Trade a Player" />
                       </ListItem>
                       {/* TODO: are we finishing this? */}

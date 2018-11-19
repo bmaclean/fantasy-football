@@ -81,8 +81,8 @@ class ManageUsers extends PureComponent {
                             Drop
                         </Button>
                     </div>
-                    <LeagueUsers league={league} open={menuOpen} anchorEl={anchorEl} close={this.closeMenu.bind(this)} select={this.select.bind(this)}/>
                 </Paper>
+                <LeagueUsers league={league} open={menuOpen} anchorEl={anchorEl} close={this.closeMenu.bind(this)} select={this.select.bind(this)}/>
             </>
         )
     }
