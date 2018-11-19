@@ -8,7 +8,7 @@ const TOTAL_SCORES_QUERY = 'SELECT user1 as username, SUM(SeasonScores.user1scor
   'GROUP BY user1 ORDER BY SUM(SeasonScores.user1score) DESC';
 
 const HIGHEST_SCORES_BY_WEEK = 'SELECT FG.gameweek, FG.user1, FG.user1score, FG.user2, FG.user2score ' +
-'FROM fantasygame FG, ' +
+  'FROM fantasygame FG, ' +
   '(SELECT SeasonScores.gameweek, MAX(SeasonScores.user1score) as highscore ' +
   'FROM (SELECT user1, user1score, gameweek FROM fantasygame WHERE leaguename = $1 ' +
 	'UNION ALL SELECT user2, user2score, gameweek FROM fantasygame WHERE leaguename = $1) as SeasonScores ' +
