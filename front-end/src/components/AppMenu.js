@@ -5,11 +5,7 @@ import {AccountCircle, BarChart, GroupAdd, Gavel, Notes, SupervisedUserCircle,
 
 
 class AppMenu extends PureComponent {
-
-    handlePageSelect = () => {
-
-    }
-
+    
     render() {
         const {classes, isCommissioner, username, setPage} = this.props;
 

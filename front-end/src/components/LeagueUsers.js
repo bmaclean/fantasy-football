@@ -32,9 +32,12 @@ class LeagueUsers extends PureComponent {
     }
 
     render() {
-        const {anchorEl, open, close} = this.props;
+        const {anchorEl, open, close, omitUser} = this.props;
         const {users} = this.state;
-        const userList = users || [];
+        let userList = users || [];
+        if (omitUser) {
+            userList = userList.filter(user => user !== omitUser);
+        }
 
         return (
             <Menu anchorEl={anchorEl} open={open} onClose={close}>

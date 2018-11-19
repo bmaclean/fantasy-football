@@ -11,7 +11,7 @@ class TradePlayer extends PureComponent {
         players: [],
         user: null,
         otherUser: null,
-        otherTeam: null,
+        otherTeam: [],
         playerSending: null,
         playerReceiving: null
     }
@@ -28,14 +28,6 @@ class TradePlayer extends PureComponent {
         this.setState({ anchorEl: null, menuOpen: false })
     };
 
-    handleGive(){
-        
-    }
-
-    handleGet(){
-        
-    }
-
     async select(state, name) {
         this.setState({ [state]: name });
         if (state === 'otherUser') {
@@ -51,12 +43,27 @@ class TradePlayer extends PureComponent {
         return newTeam;
     }
 
+    updateDisplay(pid1, pid2) {
+        this.setState({
+            players: this.state.players
+                .filter(player => player.pid !== pid1)
+                .concat(this.getPlayerByPID(pid2, (this.state.otherTeam))),
+            otherTeam: this.state.otherTeam
+                .filter(player => player.pid !== pid2)
+                .concat(this.getPlayerByPID(pid1, (this.state.players)))
+        })
+    }
+
+    getPlayerByPID = (pid, list) => list.filter(player => player.pid === pid)
+
     render() {
         const {classes, league, trade, user} = this.props;
         const {anchorEl, menuOpen, players, otherUser, otherTeam, playerSending, playerReceiving} = this.state;
 
         const otherPlayers = otherTeam || [];
         const playerList = players || [];
+
+        console.log(playerList, otherPlayers)
 
         return (
           <>
@@ -86,7 +93,7 @@ class TradePlayer extends PureComponent {
           <IconButton 
             className={classes.tradeButton}
             disabled={!playerSending || !playerReceiving}
-            onClick={() => trade(user, otherUser, playerSending, playerReceiving)}>
+            onClick={() => {this.updateDisplay(playerSending, playerReceiving); trade(user, otherUser, playerSending, playerReceiving)}}>
                 <SwapHoriz/>
           </IconButton>
           <Button
@@ -100,6 +107,7 @@ class TradePlayer extends PureComponent {
           <LeagueUsers 
             league={league} 
             open={menuOpen} 
+            omitUser={user}
             anchorEl={anchorEl} 
             close={this.closeMenu.bind(this)} 
             select={this.select.bind(this)}/>
@@ -110,7 +118,6 @@ class TradePlayer extends PureComponent {
                         <TableCell>Team</TableCell>
                         <TableCell>Name</TableCell>
                         <TableCell>Position</TableCell>
-                        {/* <TableCell>Action</TableCell> */}
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -122,7 +129,6 @@ class TradePlayer extends PureComponent {
                             <TableCell>{player.team}</TableCell>
                             <TableCell>{player.firstName + ' ' + player.lastName}</TableCell>
                             <TableCell>{player.position}</TableCell>
-                            {/* <TableCell>*drop button*</TableCell> */}
                         </TableRow>
                     ))}
                 </TableBody>

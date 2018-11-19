@@ -10,6 +10,12 @@ class FreeAgents extends PureComponent {
         this.props.players.then(players => this.setState({ players }))
     }
 
+    remove(pid) {
+        this.setState({
+            players: this.state.players.filter(player => player.pid !== pid)
+        })
+    }
+
     render() {
         const {classes, addPlayer} = this.props;
         const {players} = this.state;
@@ -37,7 +43,7 @@ class FreeAgents extends PureComponent {
                                     <Button 
                                         color="primary"
                                         variant="outlined"
-                                        onClick={() => {addPlayer(player.pid)}}>
+                                        onClick={() => {this.remove(player.pid); addPlayer(player.pid)}}>
                                         Add
                                     </Button>
                                     </TableCell>
