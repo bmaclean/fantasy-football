@@ -9,13 +9,12 @@ const NUM_PLAYERS_IN_ROSTER_QUERY = 'SELECT COUNT(*) FROM playsfor WHERE usernam
 const MVP_QUERY =  `SELECT P.pid
                     FROM Player P
                     WHERE NOT EXISTS (
-                      SELECT PI.username
+                      SELECT PI.leaguename
                       FROM PlaysIn PI
-                      WHERE PI.leaguename=$1
                       EXCEPT (
-                        SELECT username
+                        SELECT PF.leaguename
                         FROM PlaysFor PF
-                        WHERE PF.pid = P.pid AND PF.leaguename = $1
+                        WHERE PF.pid = P.pid
                       )
                     )`;
 const CREATE_FREE_AGENT_VIEW = '';
@@ -71,7 +70,7 @@ router.post('/drop', async function(req, res, next) {
 // MVP returns any player that plays for every team in a given league
 router.post('/mvp', async function(req, res, next) {
   const {league} = req.body;
-  const result = await manager.query(MVP_QUERY, [league]);
+  const result = await manager.query(MVP_QUERY);
   console.log(result)
   const mvp = result.rows.map(pid => pid);
   console.log(1)
@@ -84,7 +83,6 @@ router.post('/mvp', async function(req, res, next) {
 
 router.post('/freeagents', async function(req, res, next) {
   const {league} = req.body;
-  console.log(league)
   const createFAView = await manager.query(`CREATE VIEW FreeAgents AS SELECT * FROM player P WHERE P.pid NOT IN (SELECT pid FROM PlaysFor WHERE leaguename = \'${league}\');`);
   const FAQuery = await manager.query(FREE_AGENT_QUERY);
   const dropFAView = await manager.query(DROP_FREE_AGENT_VIEW);
