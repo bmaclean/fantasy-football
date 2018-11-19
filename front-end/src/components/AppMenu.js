@@ -66,7 +66,6 @@ class AppMenu extends PureComponent {
                           <ListItemIcon><SwapHoriz /></ListItemIcon>
                           <ListItemText primary="Trade a Player" />
                       </ListItem>
-                      {/* TODO: are we finishing this? */}
                       <ListItem button onClick={() => setPage("Players Teams")}>
                           <ListItemIcon><People /></ListItemIcon>
                           <ListItemText primary="My Players' Teams" />

@@ -22,7 +22,6 @@ router.post('/login', async function(req, res) {
 router.post('/register', async function(req, res) {
   const username = req.body.username;
   const password = req.body.password;
-  // TODO we need a join to see get the user's league(s)
   const query = await manager.query('INSERT INTO users(username, passwords) VALUES (\'' + username + '\', \'' + password + '\');');
   res.status(201).send("Registration Successful");
 });
@@ -35,7 +34,6 @@ router.post('/updatealias', async function(req, res) {
   console.log(`${username}${alias}`);
 
   const query = await manager.query(CHANGE_ALIAS, params);
-  // TODO: handle exceptions (if user is not commissioner?)
   res.status(201).send(`Successfully changed Alias ${JSON.stringify(params)}`);
 });
 

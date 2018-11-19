@@ -99,10 +99,8 @@ class ViewMatchup extends PureComponent {
                     </Button>
                     <span/>
                 </div>
-                {/* TODO: abstract formRow into component */}
                 <div className={classes.formRow}>
                     <span/>
-                    {/* TODO: abstract all button/menu combinations into custom menu component */}
                     <Button
                         aria-owns={anchorEl ? 'simple-menu' : undefined}
                         aria-haspopup="true"

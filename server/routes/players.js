@@ -33,17 +33,15 @@ const getNumPlayersInRoster = async (username, leaguename) => {
 };
 
 router.post('/add', async function(req, res, next) {
-  console.log(req.body)
   let pid = req.body.pid;
   let username = req.body.username;
   let leaguename = req.body.leaguename;
-  console.log(pid, username, leaguename);
   let params = [username, leaguename, pid];
   const rostersize = await getRosterSize(leaguename);
   const playersInRoster = await getNumPlayersInRoster(username, leaguename);
 
   if (playersInRoster >= rostersize) {
-    res.status(400).send(`Add player unsuccessful. Rosters can have at most ${rostersize} players.`);
+    res.status(401).send(`Add player unsuccessful. Rosters can have at most ${rostersize} players.`);
   }
 
   const result = await manager.query(ADD_QUERY, params);
@@ -71,9 +69,7 @@ router.post('/drop', async function(req, res, next) {
 router.post('/mvp', async function(req, res, next) {
   const {league} = req.body;
   const result = await manager.query(MVP_QUERY);
-  console.log(result)
   const mvp = result.rows.map(pid => pid);
-  console.log(1)
   if (result.rowCount > 0) {
     res.json(mvp);
   } else {

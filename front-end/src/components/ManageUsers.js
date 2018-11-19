@@ -109,7 +109,6 @@ const styles = {
         width: 400,
         height: 200,
     },
-    // TODO: formRow should be component
     centeredRow: {
         flexDirection: 'row',
         justifyContent: 'center',

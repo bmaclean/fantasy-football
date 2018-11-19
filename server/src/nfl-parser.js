@@ -34,15 +34,5 @@ async function getPlayers() {
         }))
 }
 
-async function getStats() {
-    const playerStats = await fetchResponse;
-    return playerStats.players.map(
-        player => ({
-            "gameID": playerStats.season + "W" + playerStats.week, //TODO: game ID? generate in utils?
-            "pid": player.id,
-        })
-    )
-}
-
 // const players = getPlayers();
 // players.then(data=>(fs.writeFile('nflPlayers.txt', JSON.stringify(data), ()=>{})))

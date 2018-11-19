@@ -40,7 +40,6 @@ class App extends PureComponent {
         snackbarMessage: "That username or password does not exist."
       })
     }
-    // TODO: handle unsuccessful attempts
   }
 
   async dropPlayer(pid) {
@@ -69,7 +68,6 @@ class App extends PureComponent {
         snackbarMessage: "Registration successful!"
       })
     }
-    // TODO: handle unsuccessful attempts
   }
 
   async updatealias(alias) {
@@ -89,7 +87,6 @@ class App extends PureComponent {
         commissionerAlias: alias
       })
     }
-    // TODO: handle unsuccessful attempts
   }
 
   async getFreeAgents() {
@@ -182,8 +179,11 @@ class App extends PureComponent {
       // get players that play for username in league
       body: JSON.stringify({ user1, user2, year, week, league: currentLeague })
     })
-    if (response.status === 200) {
-      // TODO: toast response
+    if (response.status === 201) {
+      this.setState({
+        showSnackbar: true,
+        snackbarMessage: 'Matchup created!'
+      })
     }
   }
 
@@ -226,8 +226,6 @@ class App extends PureComponent {
     }
   }
 
-  // TODO: all of these server calls can be paramaterized by body content and endpoint (and potential toast message)
-  //        and centralized to a single callServer method
   async dropUser(username, league) {
     const response = await fetch('/league/users/drop', {
       method: 'post',
@@ -260,8 +258,11 @@ class App extends PureComponent {
       // get players that play for username in league
       body: JSON.stringify({ pid, leaguename: currentLeague, username: user })
     })
-    if (response.status === 200) {
-      // TODO: toast response
+    if (response.status === 401) {
+      this.setState({
+        showSnackbar: true,
+        snackbarMessage: 'Your roster is full!'
+      })
     }
   }
 
@@ -276,8 +277,6 @@ class App extends PureComponent {
       body: JSON.stringify({ user1, user2, pid1, pid2})
     })
     if (response.status === 200) {
-      // TODO: toast response
-      this.forceUpdate();
     }
   }
 

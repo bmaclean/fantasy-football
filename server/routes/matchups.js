@@ -14,6 +14,8 @@ const GET_MATCHUP_FROM_WEEK = 'SELECT user1, user1score, user2, user2score FROM 
   'WHERE FG.leaguename = $1 AND (user1 = $2 OR user2 = $2) AND (user2 = $3 OR user1 = $3) AND FG.gameweek = G.weekid ' +
   'AND G.gameyear = $4 AND G.gameweek = $5';
 
+const ERROR_NAME = 'error';
+
 const getUserScoreForWeek = async (username, leaguename, gameweek) => {
   const result = await manager.query(USER_GAMEWEEK_STATS_QUERY, [username, leaguename, gameweek]);
   const values = [result.rows[0].td, result.rows[0].y, result.rows[0].c];
@@ -33,20 +35,19 @@ router.post('/', async function(req, res, next) {
   res.status(200).send(result.rows);
 });
 
-// TODO: need all GameWeeks inserted (FK constraint)
 router.post('/new', async function(req, res) {
   const {user1, user2, year, week, league} = req.body;
-  // TODO: integer constraint in DB
   const gameID = generateFantasyGameID(user1 + user2 + year + week + league);
   const gameWeek = year + 'W' + week;
-  // TODO: NaN
   const user1Score = await getUserScoreForWeek(user1, league, gameWeek);
+  const score1 = user1Score ? user1Score : 0;
   const user2Score = await getUserScoreForWeek(user2, league, gameWeek);
+  const score2 = user2Score ? user2Score : 0;
   const matchupInsert = await manager.query(INSERT_NEW_MATCHUP_QUERY, [gameID, user1, user2, gameWeek,
-    user1Score, user2Score, league]);
-  console.log(matchupInsert);
-
-  res.status(201).send("Matchup successfully created.");
+    score1, score2, league]);
+  (matchupInsert.name === ERROR_NAME) ?
+  res.status(400).send("Unable to create matchup.")
+  : res.status(201).send("Matchup successfully created.")
 })
 
 module.exports = router;

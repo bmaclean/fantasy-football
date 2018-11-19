@@ -55,9 +55,9 @@ class MyTeam extends PureComponent {
                     <TableBody>
                         {playerList.map(player => (
                             <TableRow key={player.pid} className={mvps.includes(player.pid) ? classes.mvp : ''}>
-                                <TableCell>{player.team}</TableCell>
+                                <TableCell>{player.team || 'FA'}</TableCell>
                                 <TableCell>{player.firstName + ' ' + player.lastName}</TableCell>
-                                <TableCell>{player.position || 'FA'}</TableCell>
+                                <TableCell>{player.position}</TableCell>
                                 <TableCell>
                                     <Button 
                                         color="secondary"

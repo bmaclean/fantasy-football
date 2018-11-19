@@ -1,7 +1,6 @@
 
 const generateFantasyGameID = (str) => {
-    return str.split('').reduce((prevHash, currVal) =>
-      (((prevHash << 5) - prevHash) + currVal.charCodeAt(0))|0, 0);
+    return parseInt(Math.random()*100000*str.length)
 }
 
 module.exports = generateFantasyGameID;

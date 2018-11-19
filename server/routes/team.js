@@ -10,7 +10,6 @@ const GET_NFL_TEAM_DETAILS = 'SELECT P2.pid, P2.firstname, P2.lastname, T.teamna
 
 /* POST user login. */
 router.post('/', async function(req, res) {
-  // TODO: get players based on username, league
   const {username, league} = req.body;
   console.log(username, league)
   const result = await manager.query(GET_TEAM_QUERY, [league, username]);
@@ -29,7 +28,6 @@ router.post('/', async function(req, res) {
 });
 
 router.post('/trade', async function(req, res) {
-  // TODO: get players based on username, league
   const { user1, user2, pid1, pid2} = req.body;
   console.log(user1, user2, pid1, pid2)
   const tradeQuery1 = await manager.query(TRADE_QUERY, [user1, pid1, pid2]);
