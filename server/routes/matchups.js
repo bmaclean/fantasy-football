@@ -4,8 +4,8 @@ const manager = require('../src/db-manager.js');
 const generateFantasyGameID = require('../utils/fantasy-id.js');
 
 const USER_GAMEWEEK_STATS_QUERY = ' SELECT SUM(touchdowns) as TD, SUM(yards) as Y, SUM(catches) as C ' +
-'FROM stats as S, playsfor as P WHERE P.username = $1 AND P.pid = S.pid ' +
-'AND leaguename = $2 AND S.gameid IN (SELECT gameid FROM nflgame WHERE gameweek = $3)';
+'FROM stats as S, playsfor as P, nflgame as N WHERE P.username = $1 AND P.pid = S.pid ' +
+'AND leaguename = $2 AND S.gameid = N.gameid AND n.gameweek = $3';
 
 const INSERT_NEW_MATCHUP_QUERY = 'INSERT INTO fantasygame(fantasygameid, user1, user2,' +
   'gameweek, user1score, user2score, leaguename) VALUES ($1, $2, $3, $4, $5, $6, $7)';
