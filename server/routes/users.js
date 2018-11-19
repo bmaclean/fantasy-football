@@ -10,11 +10,12 @@ router.post('/login', async function(req, res) {
   const userQuery = await manager.query('SELECT username, passwords FROM public.users WHERE username = \'' + username + '\';');
   const leagueQuery = await manager.query('SELECT leaguename FROM playsin WHERE username = \'' + username + '\';');
   const leagues = leagueQuery.rows.map(league => league.leaguename.trim());
-  const commishQuery = await manager.query('SELECT commissioner_username FROM commissioner WHERE commissioner_username = \'' + username + '\';');
+  const commishQuery = await manager.query('SELECT commissioner_username, alias FROM commissioner WHERE commissioner_username = \'' + username + '\';');
   const isCommissioner = !!commishQuery.rows.length;
+  const commissionerAlias = commishQuery ? commishQuery.rows.map(commish => commish.alias)[0] : "";
   const userExists = userQuery.rows.some(user => user.username.trim() === username && user.passwords.trim() === password);
   userExists ?
-    res.json({"username": username, "userLeagues": leagues, "isCommissioner": isCommissioner})
+    res.json({"username": username, "userLeagues": leagues, "isCommissioner": isCommissioner, "alias": commissionerAlias})
     : res.status(401).send("Invalid username");
 });
 

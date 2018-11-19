@@ -13,7 +13,7 @@ class PlayerTeams extends PureComponent {
     render() {
         const {classes} = this.props;
         const {players} = this.state;
-        
+
         const playerList = players || [];
 
         return (
@@ -21,14 +21,19 @@ class PlayerTeams extends PureComponent {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell>Teams</TableCell>
+                            <TableCell>Player</TableCell>
+                            <TableCell>Team</TableCell>
+                            <TableCell>City</TableCell>
+                            <TableCell>Stadium</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {playerList.map(player => (
                             <TableRow key={player.pid}>
-                                <TableCell>{player.team}</TableCell>
-                                {/* <TableCell>*drop button*</TableCell> */}
+                                <TableCell>{`${player.firstname.trim()} ${player.lastname.trim()}`}</TableCell>
+                                <TableCell>{player.teamname}</TableCell>
+                                <TableCell>{player.city}</TableCell>
+                                <TableCell>{player.stadium}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
@@ -43,7 +48,7 @@ const styles = {
         position: "absolute",
         marginTop: 130,
         marginLeft: 400,
-        width: 200,
+        width: 600,
         elevation: 2
     }
 }
