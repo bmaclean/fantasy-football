@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {AppHeader, AppMenu, MyTeam, TradePlayer, FreeAgents, PlayersTeams,
-      HighestRankingUser, RemovePlayers, UpdateAlias, CreateMatch, ManageUsers} from './components';
+      HighestRankingUser, RemovePlayers, UpdateAlias, CreateMatch, ManageUsers, ScoresByWeek} from './components';
 import {theme} from './ui';
 import {MuiThemeProvider, withStyles} from '@material-ui/core';
 
@@ -116,6 +116,22 @@ class App extends PureComponent {
     }
   }
 
+  async getScoresByWeek() {
+    const leaguename = this.state.currentLeague;
+    const response = await fetch('/leaderboard/weekly', {
+      method: 'post',
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+      },
+      body: JSON.stringify({ leaguename })
+    });
+    if (response.status === 200) {
+      return await response.json();
+    } else {
+      return [];
+    }
+  }
+
   async getTeam(username) {
     const {currentLeague} = this.state;
     const response = await fetch('/team', {
@@ -210,6 +226,7 @@ class App extends PureComponent {
           {page === "Free Agents" && <FreeAgents addPlayer={this.addPlayer.bind(this)} players={this.getFreeAgents()}/>}
           {page === "Players Teams" && <PlayersTeams players={this.getTeam(user)}/>}
           {page === "Highest Ranking User" && <HighestRankingUser users={this.getLeaderboard()}/>}
+          {page === "Top Scores By Week" && <ScoresByWeek scores={this.getScoresByWeek()}/>}
           {page === "Remove Players" && <RemovePlayers players={this.getTeam(user)} dropPlayer={this.dropPlayer.bind(this)}/>}
           {page === "Update Alias" && <UpdateAlias updatealias={this.updatealias.bind(this)}/>}
         </MuiThemeProvider>

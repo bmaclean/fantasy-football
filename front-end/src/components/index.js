@@ -11,3 +11,4 @@ export {default as UpdateAlias} from './UpdateAlias';
 export {default as CreateMatch} from './CreateMatch';
 export {default as LeagueUsers} from './LeagueUsers';
 export {default as ManageUsers} from './ManageUsers';
+export {default as ScoresByWeek} from './ScoresByWeek';

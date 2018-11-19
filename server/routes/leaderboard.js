@@ -13,7 +13,8 @@ const HIGHEST_SCORES_BY_WEEK = 'SELECT FG.gameweek, FG.user1, FG.user1score, FG.
   'FROM (SELECT user1, user1score, gameweek FROM fantasygame WHERE leaguename = $1 ' +
 	'UNION ALL SELECT user2, user2score, gameweek FROM fantasygame WHERE leaguename = $1) as SeasonScores ' +
   'GROUP BY SeasonScores.gameweek) as GameweekScores ' +
-  'WHERE FG.gameweek = GameweekScores.gameweek AND (FG.user1score = GameweekScores.highscore OR FG.user2score = highscore)';
+  'WHERE FG.gameweek = GameweekScores.gameweek AND (FG.user1score = GameweekScores.highscore OR FG.user2score = highscore) ' +
+  'ORDER BY FG.gameweek DESC';
 
 /* GET leaders */
 router.post('/', async function(req, res, next) {
@@ -27,7 +28,7 @@ router.post('/', async function(req, res, next) {
   }
 });
 
-router.post('/week', async function(req, res, next) {
+router.post('/weekly', async function(req, res, next) {
   const leaguename = req.body.leaguename;
   const result = await manager.query(HIGHEST_SCORES_BY_WEEK, [leaguename]);
   console.log(result);
