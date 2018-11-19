@@ -14,6 +14,7 @@ class MyTeam extends PureComponent {
         const {classes} = this.props;
         const {players} = this.state;
         
+        const playerList = players || [];
 
         return (
             <Paper className={classes.teamTable}>
@@ -27,11 +28,11 @@ class MyTeam extends PureComponent {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {players.map(player => (
+                        {playerList.map(player => (
                             <TableRow key={player.pid}>
                                 <TableCell>{player.team}</TableCell>
                                 <TableCell>{player.firstName + ' ' + player.lastName}</TableCell>
-                                <TableCell>{player.position}</TableCell>
+                                <TableCell>{player.position || 'FA'}</TableCell>
                                 {/* <TableCell>*drop button*</TableCell> */}
                             </TableRow>
                         ))}
