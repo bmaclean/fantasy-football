@@ -34,17 +34,17 @@ class App extends PureComponent {
   }
 
   async dropPlayer(pid) {
-  const username = this.state.user;
-  const leaguename = this.state.currentLeague;
-   const response = await fetch('/players/drop', {
-     method: 'post',
-     headers: {
-       "Content-Type": "application/json; charset=utf-8",
-     },
-     body: JSON.stringify({ pid, username, leaguename }) /* */
-   })
+    const username = this.state.user;
+    const leaguename = this.state.currentLeague;
+    const response = await fetch('/players/drop', {
+      method: 'post',
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+      },
+      body: JSON.stringify({ pid, username, leaguename }) /* */
+    })
    // TODO: handle unsuccessful attempts
- }
+  }
 
   async registerUser(username, password) {
     const response = await fetch('/users/register', {
@@ -239,7 +239,7 @@ class App extends PureComponent {
           <AppHeader login={this.submitLogin.bind(this)} register={this.registerUser.bind(this)} username={user} loggedIn={!!user}/>
           {page === "Create Match" && <CreateMatch league={currentLeague} submitMatchup={this.submitMatchup.bind(this)}/>}
           {page === "Manage Users" && <ManageUsers league={currentLeague} addUser={this.addUser.bind(this)} dropUser={this.dropUser.bind(this)}/>}
-          {page === "My Team" && <MyTeam players={this.getTeam(user)} />}
+          {page === "My Team" && <MyTeam dropPlayer={this.dropPlayer.bind(this)} players={this.getTeam(user)} />}
           {page === "Trade Player" && <TradePlayer user={user} trade={this.trade.bind(this)} league={currentLeague} players={this.getTeam(user)} getTeam={this.getTeam.bind(this)}/>}
           {page === "Free Agents" && <FreeAgents addPlayer={this.addPlayer.bind(this)} players={this.getFreeAgents()}/>}
           {page === "Players Teams" && <PlayersTeams players={this.getTeam(user)}/>}

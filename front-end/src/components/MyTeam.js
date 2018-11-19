@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import {Paper, Table, TableBody, TableCell, TableHead, TableRow, withStyles} from '@material-ui/core';
+import {Button, Paper, Table, TableBody, TableCell, TableHead, TableRow, withStyles} from '@material-ui/core';
 
 class MyTeam extends PureComponent {
     state = {
@@ -10,8 +10,14 @@ class MyTeam extends PureComponent {
         this.props.players.then(players => this.setState({ players }))
     }
 
+    remove(pid) {
+        this.setState({
+            players: this.state.players.filter(player => player.pid !== pid)
+        })
+    }
+
     render() {
-        const {classes} = this.props;
+        const {classes, dropPlayer} = this.props;
         const {players} = this.state;
         
         const playerList = players || [];
@@ -24,7 +30,7 @@ class MyTeam extends PureComponent {
                             <TableCell>Team</TableCell>
                             <TableCell>Name</TableCell>
                             <TableCell>Position</TableCell>
-                            {/* <TableCell>Action</TableCell> */}
+                            <TableCell>Action</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -33,7 +39,13 @@ class MyTeam extends PureComponent {
                                 <TableCell>{player.team}</TableCell>
                                 <TableCell>{player.firstName + ' ' + player.lastName}</TableCell>
                                 <TableCell>{player.position || 'FA'}</TableCell>
-                                {/* <TableCell>*drop button*</TableCell> */}
+                                <TableCell>
+                                    <Button 
+                                        color="secondary"
+                                        onClick={() => {this.remove(player.pid); dropPlayer(player.pid)}}>
+                                        Drop
+                                    </Button>
+                                    </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
@@ -48,7 +60,7 @@ const styles = {
         position: "absolute",
         marginTop: 130,
         marginLeft: 400,
-        width: 500,
+        width: 700,
         elevation: 2
     }
 }
