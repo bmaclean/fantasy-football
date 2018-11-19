@@ -1,14 +1,14 @@
 var express = require('express');
 var router = express.Router();
 const manager = require('../src/db-manager.js');
-const generateFantasyGameID = require('../utils/fantasy-id.js')
+const generateFantasyGameID = require('../utils/fantasy-id.js');
 
 const USER_GAMEWEEK_STATS_QUERY = ' SELECT SUM(touchdowns) as TD, SUM(yards) as Y, SUM(catches) as C ' +
 'FROM stats as S, playsfor as P WHERE P.username = $1 AND P.pid = S.pid ' +
 'AND leaguename = $2 AND S.gameid IN (SELECT gameid FROM nflgame WHERE gameweek = $3)';
 
-const INSERT_NEW_MATCHUP_QUERY = 'INSERT INTO fantasygame(fantasygameid, user1, user2, \
-  gameweek, user1score, user2score, leaguename) VALUES ($1, $2, $3, $4, $5, $6, $7)';
+const INSERT_NEW_MATCHUP_QUERY = 'INSERT INTO fantasygame(fantasygameid, user1, user2,' +
+  'gameweek, user1score, user2score, leaguename) VALUES ($1, $2, $3, $4, $5, $6, $7)';
 
 const getUserScoreForWeek = async (username, leaguename, gameweek) => {
   const result = await manager.query(USER_GAMEWEEK_STATS_QUERY, [username, leaguename, gameweek]);
@@ -24,7 +24,7 @@ router.post('/', async function(req, res, next) {
 
   const user1score = await getUserScoreForWeek(user1, leaguename, gameweek);
   const user2score = await getUserScoreForWeek(user2, leaguename, gameweek);
-  
+
   res.status(200).send({ user1score, user2score });
 });
 
@@ -37,7 +37,7 @@ router.post('/new', async function(req, res) {
   // TODO: NaN
   const user1Score = await getUserScoreForWeek(user1, league, gameWeek);
   const user2Score = await getUserScoreForWeek(user2, league, gameWeek);
-  const matchupInsert = await manager.query(INSERT_NEW_MATCHUP_QUERY, [gameID, user1, user2, gameWeek, 
+  const matchupInsert = await manager.query(INSERT_NEW_MATCHUP_QUERY, [gameID, user1, user2, gameWeek,
     user1Score, user2Score, league]);
   console.log(matchupInsert);
 
